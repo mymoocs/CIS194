@@ -1,0 +1,9 @@
+http://www.seas.upenn.edu/~cis194/spring13/
+
+https://www.fpcomplete.com/school/starting-with-haskell/introduction-to-haskell
+
+Wholemeal programming style example and papaer
+
+http://www.cs.nott.ac.uk/~gmh/sudoku.lhs
+
+http://www.cs.ox.ac.uk/ralf.hinze/publications/ICFP09.pdf

@@ -1,0 +1,6 @@
+*darcs*
+*.hi
+*.o
+.*.swp
+*~
+*.exe
