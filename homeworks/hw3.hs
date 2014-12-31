@@ -60,6 +60,10 @@ localMaxima xs@(_:x':xs') =
   |otherwse = localMaxima' (b:c:cs)
 --}
 
+-- Actually this is wrong if consider function types
+-- nedd to process [Integer] not [int], i guess if
+-- focuse on type to make correct will lead to find other solution,
+-- more simple, which i found from interet later. 
 -- Exercise 3 Histogram
 histogram :: [Int] -> String
 histogram =unlines .  histogram''
@@ -93,7 +97,7 @@ blanks m n = replicate (m-n) ' '
 emptyLine :: Show a => Int -> a -> [Char]
 emptyLine m n = replicate m ' ' ++  lineSuffix n 
 
--- the solution process made a lot aux functions
+-- the solution process made a lot aux exploration functions
 
 histogram1 :: [Int] -> String
 histogram1 = unlines . histogram' . counts
@@ -133,5 +137,22 @@ pGen ((_, 0) : xs) = pGen xs
 pGen ((a, n) : (b,m) : xs) = genStars (a,b) ++"\n" ++
                              pGen ((a,n-1): (b, m-1):xs)
 
+
+
+-- [SPOILERS]
+-- cery nice solution from internet
+histogrambest :: [Integer] -> String
+histogrambest xs = (unlines . reverse) (buildhisto xs)
+                   ++ "==========\n0123456789"
+
+buildhisto :: [Integer] -> [String]
+buildhisto [] = []
+buildhisto xs = histoline xs : buildhisto xs'
+  where xs' = xs \\ [0..9]
+
+histoline :: [Integer] -> String
+histoline xs = map mark [0..9]
+  where mark x | x `elem` xs = '*'
+               | otherwise = ' '
 
 
