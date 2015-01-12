@@ -1,0 +1,3 @@
+course home: http://www.seas.upenn.edu/~cis194/fall14/
+
+github: https://github.com/goldfirere
