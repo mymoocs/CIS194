@@ -1,9 +1,13 @@
 {-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Hw5 where
 
 import ExprT
 import Parser
+import qualified StackVM as S -- need for exercise 5
+
 
 -- 1.
 
@@ -68,13 +72,38 @@ instance Expr Mod7 where
   add (Mod7 n) (Mod7 m) = Mod7 (mod (n+m) 7)
   mul (Mod7 n) (Mod7 m) = Mod7 (mod (n*m) 7)
 
--- It’s great how easy it is for us to swap in new semantics for
+-- Itâ€™s great how easy it is for us to swap in new semantics for
 -- the same syntactic expression!
 testExp :: Expr a => Maybe a
 testExp = parseExp lit add mul "(3 * -4) + 5"
+
+testInteger :: Maybe Integer
 testInteger = testExp :: Maybe Integer
+
+testBool :: Maybe Bool
 testBool = testExp :: Maybe Bool
+
+testMM :: Maybe MinMax
 testMM = testExp :: Maybe MinMax
+
+testSat :: Maybe Mod7
 testSat = testExp :: Maybe Mod7
 
   
+-- 5.
+
+instance Expr S.Program where
+  lit n = [S.PushI n]
+  add e1 e2 = e1++e2++[S.Add]
+  mul e1 e2 = e1++e2++[S.Mul]
+
+testProgram :: Maybe S.Program
+testProgram = testExp :: Maybe S.Program  
+ 
+calculate str  = let stack = compile str
+                 in case stack of
+                     Nothing -> Left "Nothing"
+                     Just s ->  S.stackVM s
+
+compile :: String -> Maybe S.Program
+compile  =  parseExp lit add mul

@@ -5,6 +5,7 @@ import Test.Hspec
 import ExprT
 import Parser
 import Hw5
+import qualified StackVM as S -- need for exercise 5
 
 main :: IO ()
 main = hspec $ do
@@ -16,6 +17,5 @@ main = hspec $ do
         `shouldBe` Just (Mul (Add (Lit 2) (Lit 3)) (Lit 4))
     it "evalStr function" $ do
       evalStr "(2+3)*4"  `shouldBe` Just 20
-   -- it "Expr type class" $ do
-    -- (mul (add (lit 2) (lit 3)) (lit 4)) :: ExprT
-      --  `shouldBe` 20  -- ( Mul (Add (Lit 2) (Lit 3)) (Lit 4))
+    -- it "Ex 5. Compile string to Program" $ do
+      -- calculate "(3 * -4) + 5" `shouldBe` Right (S.IVal (-7))
