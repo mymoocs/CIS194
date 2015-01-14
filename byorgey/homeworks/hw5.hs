@@ -8,7 +8,7 @@ import ExprT
 import Parser
 import qualified StackVM as S -- need for exercise 5
 
-
+import qualified Data.Map as M
 -- 1.
 
 -- eval (Mul (Add (Lit 2) (Lit 3)) (Lit 4)) == 20.
@@ -99,7 +99,8 @@ instance Expr S.Program where
 
 testProgram :: Maybe S.Program
 testProgram = testExp :: Maybe S.Program  
- 
+
+calculate :: [Char] -> Either [Char] S.StackVal                         
 calculate str  = let stack = compile str
                  in case stack of
                      Nothing -> Left "Nothing"
@@ -107,3 +108,46 @@ calculate str  = let stack = compile str
 
 compile :: String -> Maybe S.Program
 compile  =  parseExp lit add mul
+
+-- 6. arithmetic expressions the with variables.
+
+class HasVars a where
+  var :: String -> a
+
+instance HasVars VarExprT where  
+  var s = VVar s
+
+instance HasVars (M.Map String Integer -> Maybe Integer) where
+  var  = M.lookup   
+
+instance Expr (M.Map String Integer -> Maybe Integer) where
+  lit n =  \_ -> Just n
+
+  add e1 e2 = \m -> case e1 m of
+                     Just x -> case e2 m of
+                                Just y -> Just $ x + y
+  mul e1 e2 = \m -> case e1 m of
+                     Just x -> case e2 m of
+                                Just y -> Just $ x * y
+{--
+with Monads
+add e1 e2 = \m -> e1 m >>= \x -> e2 m >>= \y -> return (x+y)
+
+
+mul e1 e2 = \m -> do
+    x <- e1 m
+    y <- e2 m
+    return (x * y) --}
+    
+  
+
+instance Expr VarExprT where
+  lit  = VLit 
+  add  = VAdd 
+  mul  = VMul
+  
+withVars :: [(String, Integer)]
+         -> (M.Map String Integer -> Maybe Integer)
+         -> Maybe Integer
+withVars vs e = e $ M.fromList vs
+
