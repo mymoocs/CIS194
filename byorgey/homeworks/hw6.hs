@@ -1,4 +1,6 @@
 {-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE FlexibleInstances  #-}
+{-# OPTIONS_GHC -fno-warn-missing-methods #-}
 
 -- about Haskell's lazy evaluation
 -- the ability to work with infinite data structures.
@@ -33,6 +35,7 @@ ones = Cons 1 ones
 instance Show a => Show (Stream a) where
   show stream = show' stream 20
     where
+      show' :: Show a => Stream a -> Integer -> String
       show' _ 0 = "..."
       show' (Cons e s) n = show e ++","++ show' s (n-1)
 
@@ -75,4 +78,25 @@ ruler = interleaveStreams zeroes powers2
     findPower2 n | odd n = 0
                  | otherwise = let d = n `div` 2 in 1 + findPower2 d
 
+
+-- 6.
+
+x :: Stream Integer
+x = Cons 0 (Cons 1 (streamRepeat 0))
+
+instance Num (Stream Integer) where
+  fromInteger n = Cons n (streamRepeat 0)
+  -- negate (Cons n s) = Cons (-n) (negate s)
+  negate = streamMap negate
+  (+) (Cons n s1) (Cons m s2) = Cons (n+m) (s1 + s2)
+  (*) (Cons n s1) s'@(Cons m s2) = Cons (n*m)
+                                   --(((fromInteger n) * s2) + (s1 * s')) -- slow 
+                                   ((streamMap (* n) s2) + (s1 * s'))
+
+instance Fractional (Stream Integer) where
+  (/) s@(Cons n s1) s'@(Cons m s2) = Cons (n `div` m)
+                                     (streamMap (`div` m) (s1 - (s / s') * s2))
+
+fibs3 :: Stream Integer
+fibs3 = x / (1 - x - x*x)
 
