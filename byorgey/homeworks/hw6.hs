@@ -82,7 +82,7 @@ ruler = interleaveStreams zeroes powers2
 -- 6.
 
 x :: Stream Integer
-x = Cons 0 (Cons 1 (streamRepeat 0))
+x = Cons 0 (Cons 1 (streamFromSeed id 0))
 
 instance Num (Stream Integer) where
   fromInteger n = Cons n (streamRepeat 0)
