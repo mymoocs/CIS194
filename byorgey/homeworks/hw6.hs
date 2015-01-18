@@ -50,10 +50,29 @@ streamMap f (Cons e s) = Cons (f e) (streamMap f s)
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed f e = Cons e (streamFromSeed f (f e))
 
--- Ex 5
-
+-- Ex 5.1
 nats :: Stream Integer
 nats = streamFromSeed (+1) 0
 
+-- uax function
+zeroes :: Stream Integer
+zeroes = streamFromSeed id 0
+
+interleaveStreams :: Stream a -> Stream a -> Stream a
+interleaveStreams (Cons x s1) (Cons y s2) = (Cons x
+                                             (Cons y (interleaveStreams s1 s2)))
+-- Ex 5.2
 ruler :: Stream Integer
-ruler = undefined
+ruler = interleaveStreams zeroes powers2
+  where
+    evens :: Stream Integer
+    evens = streamFromSeed (+2) 2
+    
+    powers2 :: Stream Integer
+    powers2 = streamMap findPower2 evens
+
+    findPower2 :: Integer -> Integer
+    findPower2 n | odd n = 0
+                 | otherwise = let d = n `div` 2 in 1 + findPower2 d
+
+
