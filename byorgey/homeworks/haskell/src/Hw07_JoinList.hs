@@ -1,11 +1,12 @@
 {-# OPTIONS_GHC -Wall #-}
+
 module Hw07_JoinList where
 
 import Hw07_Sized
 import Data.Monoid
 
 import qualified Test.HUnit as T
--- import qualified Test.HUnit.Util  as U
+import qualified Test.HUnit.Util  as U
 
 data JoinList m a = Empty
                   | Single m a
@@ -81,16 +82,10 @@ jlSize = Append (Size 9)
 test_indexJ :: T.Test
 test_indexJ = T.TestList
               [
-                -- U.teq  (indexJ 2 jlSize)  ( (jlToList jlSize !!? 2))
+                U.teq  "compare with `!!?`" (indexJ 2 jlSize)  (jlToList jlSize !!? 2)
               ]
 
-test_indexJ1 :: IO T.Counts
-test_indexJ1 = T.runTestTT $ 
-               T.TestList
-               [
-                 T.TestCase $ T.assertEqual "equal with !!?"
-                 (indexJ 2 jlSize)  ( (jlToList jlSize !!? 2))
-               ]
+
 -- indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
 -- return (Just element) at the specified index,
 -- if index is  out of bouds, the function returns Nothing.
@@ -110,3 +105,9 @@ dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ n jl = undefined
 
 
+hw07 :: IO T.Counts
+hw07 = do
+    T.runTestTT test_indexJ
+
+
+-- End of file
