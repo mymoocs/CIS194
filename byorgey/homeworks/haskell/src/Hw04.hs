@@ -1,5 +1,4 @@
-module Week4 where
-
+module Hw04 where
 
 -- Exercise 1: Wholemeal programming
 -- Reimplement each of the following functions in a more idiomatic

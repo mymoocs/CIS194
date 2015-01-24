@@ -17,11 +17,19 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:    Main 
+                    , Hw01
+                    , Hw02_LogAnalysis
+                    , Hw03_Golf
+                    , Hw04
+                    , Hw05
+                    , Hw06
+                    
   -- other-modules:       
   -- other-extensions:    FlexibleInstances, TypeSynonymInstances, GeneralizedNewtypeDeriving, ScopedTypeVariables
   build-depends:       base  >=4.6 && <4.7
                      , HUnit >=1.2 && <1.3
                      , mtl   >=2.1 && <2.2
+                     , containers == 0.5.0.0
                      -- , test-hunit-util >=0.1 && <0.2
   hs-source-dirs:      src
   default-language:    Haskell2010

@@ -4,7 +4,7 @@
 
 -- about Haskell's lazy evaluation
 -- the ability to work with infinite data structures.
-module Hw6 where
+module Hw06 where
 
 -- Fibonacci numbers
 

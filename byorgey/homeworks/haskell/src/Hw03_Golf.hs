@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall  #-}
 
 
-module Golf where
+module Hw03_Golf where
 import Data.List
 
 {- skips "ABCD" == ["ABCD", "BD", "C", "D"]

@@ -3,7 +3,7 @@
 {-# OPTIONS_GHC -Wall #-}
 
 
-module LogAnalysis where
+module Hw02_LogAnalysis where
 
 import Log
 

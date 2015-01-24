@@ -2,6 +2,8 @@
 
 -- {-# LANGUAGE ScopedTypeVariables #-}
 
+module Hw01 where
+
 -- Validating Credit Card Numbers
 
 -- 1.

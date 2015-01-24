@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 
-module Hw5 where
+module Hw05 where
 
 import ExprT
 import Parser
