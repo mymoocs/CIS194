@@ -23,6 +23,7 @@ library
                     , Hw04
                     , Hw05
                     , Hw06
+                    , Hw07_JoinList
                     
   -- other-modules:       
   -- other-extensions:    FlexibleInstances, TypeSynonymInstances, GeneralizedNewtypeDeriving, ScopedTypeVariables

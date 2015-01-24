@@ -2,8 +2,7 @@
 
 Homework solutions for UPenn's CIS 194 course:
 
-[[http://www.seas.upenn.edu/~cis194/fall14/spring13/]]
-
+[[http://www.seas.upenn.edu/~cis194/fall14/spring13/]] 
 Instructor: [[http://www.cis.upenn.edu/~byorgey/][Brent Yorgey]]
 
 [[http://www.seas.upenn.edu/~cis194/fall14/]]

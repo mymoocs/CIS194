@@ -79,8 +79,8 @@ jlSize = Append (Size 9)
 
 
 
-test_indexJ :: T.Test
-test_indexJ = T.TestList
+ex2_1 :: T.Test
+ex2_1 = T.TestList
               [
                 U.teq  "compare with `!!?`" (indexJ 2 jlSize)  (jlToList jlSize !!? 2)
               ]
@@ -107,7 +107,7 @@ dropJ n jl = undefined
 
 hw07 :: IO T.Counts
 hw07 = do
-    T.runTestTT test_indexJ
+    T.runTestTT ex2_1
 
 
 -- End of file
