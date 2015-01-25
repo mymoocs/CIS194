@@ -9,14 +9,15 @@ import    Hw04
 import    Hw05
 import    Hw06
 import    Hw07_JoinList
-
+import    Hw07_Sized
+import    Hw07_Scrabble
 
 main :: IO Counts
 main = do
    -- hw01
    -- hw02
    -- hw03
-   -- hw04
+   -- hw04 
    -- hw05
    -- hw06
     hw07

@@ -24,6 +24,8 @@ library
                     , Hw05
                     , Hw06
                     , Hw07_JoinList
+                    , Hw07_Sized
+                    , Hw07_Scrabble
                     
   -- other-modules:       
   -- other-extensions:    FlexibleInstances, TypeSynonymInstances, GeneralizedNewtypeDeriving, ScopedTypeVariables
