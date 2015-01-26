@@ -8,7 +8,7 @@ import           Data.Char
 
 
 -- http://thepixiepit.co.uk/scrabble/rules.html
--- Scrabble 
+-- Scrabble rules http://thepixiepit.co.uk/scrabble/rules.html
 
 
 newtype Score = Score Int
