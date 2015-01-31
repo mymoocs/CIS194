@@ -1,7 +1,7 @@
 module Employee where
 
 import           Data.Tree
-
+import           Data.Monoid
 -- Employee names are represented by Strings.
 type Name = String
 
@@ -50,3 +50,36 @@ data GuestList = GL [Employee] Fun
 
 instance Ord GuestList where
   compare (GL _ f1) (GL _ f2) = compare f1 f2
+
+-- 1.
+
+-- 1.1
+-- take emp and listm, and add emp to list
+glCons :: Employee -> GuestList -> GuestList
+glCons e@(Emp _ x ) (GL es s) = GL (e:es) (s + x) 
+
+-- 1.2
+instance Monoid GuestList where
+  mempty = GL [] 0
+  mappend (GL es1 s1) (GL es2 s2) = GL (es1 ++ es2) (s1 + s2)
+
+-- 1.3
+-- teake 2 list, return which one has mote fun  
+moreFun :: GuestList -> GuestList -> GuestList
+moreFun gl1 gl2 = if gl1 > gl2 then gl1 else gl2
+
+-- 2.
+
+{-
+data Tree a = Node {
+  rootLabel :: a, -- label value
+  subForest :: [Tree a] -- zero or more child trees
+  }
+-}
+
+-- 2.1 
+-- define fold for Type Tree
+-- treeFold :: b -> (b -> a -> b) -> Tree a -> b
+-- ToDo: fix foldTree
+treeFold e f (Node x []) = f e x
+treeFold e f (Node x (t:ts)) = f (treeFold e f t) x 
