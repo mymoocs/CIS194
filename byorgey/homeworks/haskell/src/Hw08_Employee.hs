@@ -2,6 +2,7 @@ module Employee where
 
 import           Data.Tree
 import           Data.Monoid
+
 -- Employee names are represented by Strings.
 type Name = String
 
@@ -79,7 +80,15 @@ data Tree a = Node {
 
 -- 2.1 
 -- define fold for Type Tree
--- treeFold :: b -> (b -> a -> b) -> Tree a -> b
--- ToDo: fix foldTree
-treeFold e f (Node x []) = f e x
-treeFold e f (Node x (t:ts)) = f (treeFold e f t) x 
+
+-- treeFold :: a -> (a -> Tree t -> a) -> Tree t -> a
+treeFold e f tree@(Node {subForest = xs}) = foldl f (f e tree) xs 
+
+tag (Node {rootLabel = x}) = x
+
+------------------------------------------------------------------------------
+
+-- 3.
+
+nextLevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
+nextLevel e gl =  undefined
