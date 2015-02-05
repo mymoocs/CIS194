@@ -84,3 +84,75 @@ instance Applicative Parser where
                          Nothing       -> Nothing
                          Just (b, rss) -> Just (g b, rss)
   
+type Name = String
+data Employee = Emp { name :: Name, phone :: String }
+
+parseName :: Parser Name
+parseName = undefined -- TODO
+
+parsePhone :: Parser String
+parsePhone = undefined --TODO
+
+parseEmployee :: Parser Employee
+parseEmployee = Emp <$> parseName <*> parsePhone
+
+
+-- 3.
+
+-- 3.1 getexpect to see  'a' and 'b', returns pair ('a','b')
+-- runParser abParser "abcdef" == Just (('a','b'),"cdef")
+-- runParser abParser "aebcdf" == Nohhing
+abParser :: Parser (Char, Char)
+abParser = (,) <$> satisfy (=='a') <*> satisfy (=='b')
+
+-- 3.2 like 3.1 return () not pair
+-- runParser abParser_ "abcdef" == Just ((),"cdef")
+-- runParser abParser_ "aebcdf" == Nothing
+
+abParser_ :: Parser ()
+abParser_ =
+  -- (\a->()) <$> abParser
+  -- (\(_,_) -> ()) <$> abParser
+  const () <$> abParser
+
+-- 3.2 
+-- runParser intPair "12 34" == Just ([12,34],"")
+
+--intPair :: Parser [Int]
+intPair = -- (\a b -> [a,b]) <$> posInt <* char ' ' <*> posInt
+          -- (\x _ y -> [x,y]) <$> posInt <*> satisfy (' '==) <*> posInt
+  Parser (\s -> case runParser posInt s of
+           Nothing      -> Nothing
+           Just (x, s1) -> case runParser (satisfy (==' ')) s1 of
+                            Nothing     -> Nothing
+                            Just (c,s2) -> case runParser posInt s2 of
+                                            Nothing      -> Nothing
+                                            Just (y, s3) -> Just ([x,y], s3))   
+
+
+-- 4.
+
+{- class Applicative f => Alternative f where
+  empty :: f a
+  (<|>) :: f a -> f a -> f a -}
+
+
+
+instance Alternative Parser where
+  empty = Parser (const  Nothing)
+  p1  <|> p2 = Parser (\s -> case runParser p1 s of
+                              Nothing    -> runParser p2 s
+                              result -> result)
+
+-- 5.
+
+-- runParser intOrUppercase "342abcd" == Just ((), "abcd")
+--  runParser intOrUppercase "XYZ" == Just ((), "YZ")
+-- runParser intOrUppercase "foo" == Nothing
+intOrUppercase :: Parser ()
+intOrUppercase = const () <$> posInt <|> const () <$> satisfy isUpper
+{-  Parser (\s -> case  runParser ((satisfy isUpper) <|> (satisfy posInt)) s of
+                 Nothing      -> Nothing
+                 Just (x, s1) -> intOrUppercase s1
+                   )-}
+

@@ -1,3 +1,8 @@
+
+[[https://github.com/bfpg/cis194-yorgey-lectures][Talk Series based on cis194 lectures.]]
+
+[[https://vimeo.com/album/2805119/page:1/sort:preset/format:thumbnail][BFPG meetups videos in vimeo]]
+
 http://www.seas.upenn.edu/~cis194/spring13/
 
 https://www.fpcomplete.com/school/starting-with-haskell/introduction-to-haskell
