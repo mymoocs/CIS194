@@ -105,6 +105,12 @@ parseEmployee = Emp <$> parseName <*> parsePhone
 abParser :: Parser (Char, Char)
 abParser = (,) <$> satisfy (=='a') <*> satisfy (=='b')
 
+abParser' = Parser (\s -> case runParser (satisfy (=='a')) s of
+                          Nothing -> Nothing
+                          Just (a, rs) -> case runParser (satisfy (=='b')) rs of
+                                           Nothing -> Nothing
+                                           Just (b, rs1) -> Just ((a,b), rs1))
+
 -- 3.2 like 3.1 return () not pair
 -- runParser abParser_ "abcdef" == Just ((),"cdef")
 -- runParser abParser_ "aebcdf" == Nothing
@@ -151,6 +157,8 @@ instance Alternative Parser where
 -- runParser intOrUppercase "foo" == Nothing
 intOrUppercase :: Parser ()
 intOrUppercase = const () <$> posInt <|> const () <$> satisfy isUpper
+                 -- (\_ -> ()) <$> posInt <|> (\_-> ()) <$> satisfy isUpper
+                 
 {-  Parser (\s -> case  runParser ((satisfy isUpper) <|> (satisfy posInt)) s of
                  Nothing      -> Nothing
                  Just (x, s1) -> intOrUppercase s1

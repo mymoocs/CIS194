@@ -2,30 +2,41 @@
    due Monday, 8 April
 -}
 
-module SExpr where
+module Hw11_SExpr where
 
-import AParser
+import Hw11_AParser
 import Control.Applicative
-
+import Data.Char(isUpper, isSpace, isAlpha, isAlphaNum)
 ------------------------------------------------------------
 --  1. Parsing repetitions
 ------------------------------------------------------------
+-- runParser (zeroOrMore (satisfy isUpper)) "ABCdEfgH" == Just ("ABC","dEfgH")
+-- runParser (zeroOrMore (satisfy isUpper)) "abcdeFGh" == Just ("","abcdeFGh")
+-- zeroOrMore :: Parser a -> Parser [a]
 
-zeroOrMore :: Parser a -> Parser [a]
-zeroOrMore p = undefined
 
+zeroOrMore p = oneOrMore p <|> pure []
+               
 oneOrMore :: Parser a -> Parser [a]
-oneOrMore p = undefined
+oneOrMore p = (:) <$> p <*> zeroOrMore p
+
+nullP :: Parser [a]
+nullP = pure []
 
 ------------------------------------------------------------
 --  2. Utilities
 ------------------------------------------------------------
-
+-- runParser spaces "   hello"   == Just ("   ","hello")
 spaces :: Parser String
-spaces = undefined
+spaces = zeroOrMore (satisfy isSpace)
+
+-- runParser ident "foobar baz" == Just ("foobar"," baz")
+-- runParser ident "foo33fA" == Just ("foo33fA","")
+-- runParser ident "2bad" == Nothing
+-- runParser ident "" == Nothing
 
 ident :: Parser String
-ident = undefined
+ident = (:) <$> (satisfy isAlpha) <*> zeroOrMore (satisfy isAlphaNum) 
 
 ------------------------------------------------------------
 --  3. Parsing S-expressions

@@ -1,4 +1,4 @@
-module AParser (Parser, runParser, satisfy, char, posInt) where
+module Hw11_AParser (Parser, runParser, satisfy, char, posInt) where
 
 import           Control.Applicative
 import           Data.Char
