@@ -26,6 +26,9 @@ library
                     , Hw07_JoinList
                     , Hw07_Sized
                     , Hw07_Scrabble
+                    , Hw08_Employee
+                    , Hw10_AParser
+                    , Hw11_SExpr
                     
   -- other-modules:       
   -- other-extensions:    FlexibleInstances, TypeSynonymInstances, GeneralizedNewtypeDeriving, ScopedTypeVariables

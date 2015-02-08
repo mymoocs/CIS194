@@ -261,7 +261,7 @@ hw07 = do
     _ <- T.runTestTT ex2_1
     _ <- T.runTestTT ex2_2
     _ <- T.runTestTT ex2_3
-    T.runTestTT ex3
+    _ <- T.runTestTT ex3
     T.runTestTT ex4
 
 

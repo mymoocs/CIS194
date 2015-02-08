@@ -2,7 +2,7 @@
    due Monday, 1 April
 -}
 
-module AParser where
+module Hw10_AParser where
 
 import           Control.Applicative
 
