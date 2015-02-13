@@ -15,7 +15,7 @@ import    Hw08_Employee
 -- no homework for this week.
 import    Hw10_AParser
 import    Hw11_SExpr
-                    
+import    Hw12_Risk
 
 main :: IO Counts
 main = do
@@ -30,6 +30,7 @@ main = do
     -- No homework this week.
     -- hw10
     hw11
+    hw12
     
    
 -- End of file.
