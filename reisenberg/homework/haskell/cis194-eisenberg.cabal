@@ -21,6 +21,7 @@ library
                      
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7
+  build-depends:       base    >=4.6 && <4.7
+                     , doctest >= 0.9.7
   hs-source-dirs:      src
   default-language:    Haskell2010
