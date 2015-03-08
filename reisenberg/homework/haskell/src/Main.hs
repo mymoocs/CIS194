@@ -1,5 +1,7 @@
 
 module Main where
 
+import Hw01 
+
 main = do
-  print "Hello world"
+  hw1

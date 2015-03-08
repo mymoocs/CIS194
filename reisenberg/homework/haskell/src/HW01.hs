@@ -12,6 +12,9 @@ module Hw01 where         -- We'll learn more about this later
 
 import Data.Char (digitToInt)
 
+import qualified Test.HUnit          as T
+import qualified Test.HUnit.Util     as U
+
 isThisWorking :: String
 isThisWorking = "Yes"
 -- Load this file into GHCi (say, with `ghci HW01.hs`) and type
@@ -41,6 +44,16 @@ dropLastDigit n | n < 10 = 0
   where
     f = read . init . show
 
+
+ex1 :: T.Test
+ex1 = T.TestList
+      [
+        U.teq "ex1.10" (lastDigit 123) 3
+      , U.teq "ex1.11" (lastDigit 0) 0
+      , U.teq "ex1.20" (dropLastDigit 123) 12
+      , U.teq "ex1.21" (dropLastDigit 1) 0
+      ]
+
 --------------------------------------------------------------------------------
 --- Exercise 2.
 
@@ -60,6 +73,12 @@ toDigits n |n <= 0     = []
     d = [lastDigit n] 
     m = dropLastDigit n
 
+ex2 :: T.Test
+ex2 = T.TestList
+      [
+        U.teq "ex20" (toDigits 123) [1,2,3]
+      , U.teq "ex21" (toDigits 0) []
+      , U.teq "ex22" (toDigits (-17)) []      ]
 --------------------------------------------------------------------------------
 --- Exercise 3.
 
@@ -83,6 +102,13 @@ doubleSecond :: [Integer] -> [Integer]
 doubleSecond []     = []
 doubleSecond (x:xs) = x:doubleFirst xs 
 
+ex3 :: T.Test
+ex3 = T.TestList
+      [
+        U.teq "ex30" (doubleEveryOther [8,7,6,5]) [16,7,12,5]
+      , U.teq "ex31" (doubleEveryOther [1,2,3])  [1,4,3]
+      ]
+
 
 --------------------------------------------------------------------------------
 --- Exercise 4.
@@ -93,7 +119,12 @@ doubleSecond (x:xs) = x:doubleFirst xs
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . concat . map toDigits
 
-
+ex4 :: T.Test
+ex4 = T.TestList
+      [
+        U.teq "ex40" (sumDigits [16,7,12,5]) (1 + 6 + 7 + 1 + 2 + 5)
+      , U.teq "ex41" (sumDigits [16,33,1,5]) (1 + 6 + 3 + 3 + 1 + 5)
+      ]
 --------------------------------------------------------------------------------
 --- Exercise 5.
 -- |
@@ -105,6 +136,13 @@ sumDigits = sum . concat . map toDigits
 
 validate :: Integer -> Bool
 validate = (==0) . lastDigit . sumDigits . doubleEveryOther . toDigits
+
+ex5 :: T.Test
+ex5 = T.TestList
+      [
+        U.teq "ex50" (validate 4012888888881881) True
+      , U.teq "ex51" (validate 4012888888881882) False
+      ]
 
 --------------------------------------------------------------------------------
 --- Exercise 6. The Towers of Hano
@@ -120,6 +158,12 @@ type Peg = String
 type Move = (Peg, Peg)
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
 hanoi = undefined
+
+ex6 :: T.Test
+ex6 = T.TestList
+      [
+        -- U.teq "ex6" 
+      ]
 --------------------------------------------------------------------------------
 --- Exercise 7.
 
@@ -129,6 +173,23 @@ hanoi = undefined
 hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
 hanoi4 = undefined
 
+ex7 :: T.Test
+ex7 = T.TestList
+      [
+        
+      ]
+--------------------------------------------------------------------------------
+--- Hw 01 test
+
+hw1 :: IO T.Counts
+hw1 = do
+  T.runTestTT ex1
+  T.runTestTT ex2
+  T.runTestTT ex3
+  T.runTestTT ex4
+  T.runTestTT ex5
+  T.runTestTT ex6
+  T.runTestTT ex7
 
 
 
