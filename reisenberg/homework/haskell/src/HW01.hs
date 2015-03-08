@@ -152,17 +152,21 @@ ex5 = T.TestList
 -- that can be described recursively.
 -- 3 pegs case
 -- >>> hanoi 2 "a" "b" "c"
--- [("a","c"), ("a","b"), ("c","b")
+-- [("a","c"), ("a","b"), ("c","b")]
 
 type Peg = String
 type Move = (Peg, Peg)
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi = undefined
+hanoi 0 _ _ _ = []
+hanoi n a b c = hanoi (n-1) a c b ++ (move a b) ++ hanoi (n-1) c b a
+
+move :: Peg -> Peg -> [Move]
+move a b = [(a,b)] 
 
 ex6 :: T.Test
 ex6 = T.TestList
       [
-        -- U.teq "ex6" 
+        U.teq "ex6" (hanoi 2 "a" "b" "c") [("a","c"), ("a","b"), ("c","b")]
       ]
 --------------------------------------------------------------------------------
 --- Exercise 7.
@@ -178,6 +182,45 @@ ex7 = T.TestList
       [
         
       ]
+
+--------------------------------------------------------------------------------
+--- Hanoi problem with advanced data structures
+-- | 
+
+data Peg' = A | B | C deriving (Eq)
+
+
+instance Show Peg' where
+  show A = "a"
+  show B = "b"
+  show C = "c"
+  
+type Move' = (Peg', Peg')
+hanoi' :: Integer -> Peg' -> Peg' -> Peg' -> [Move']
+hanoi' 0 _ _ _ = []
+hanoi' n a b c = hanoi' (n-1) a c b ++ (move' a b) ++ hanoi' (n-1) c b a
+
+move' :: Peg' -> Peg' -> [Move']
+move' a b = [(a,b)]
+
+a :: Peg'
+a = A
+
+b :: Peg'
+b = B
+
+c :: Peg'
+c = C
+
+
+ex8 :: T.Test
+ex8 = T.TestList
+      [
+        U.teq "ex80" (hanoi' 3 a b c) [(a,b),(a,c),(b,c),(a,b),(c,a),(c,b),(a,b)]
+      ]
+
+
+      
 --------------------------------------------------------------------------------
 --- Hw 01 test
 
@@ -190,6 +233,7 @@ hw1 = do
   T.runTestTT ex5
   T.runTestTT ex6
   T.runTestTT ex7
+  T.runTestTT ex8
 
 
 
