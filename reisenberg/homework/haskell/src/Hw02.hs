@@ -9,7 +9,7 @@ Notes: <any particular notes about your work -- what you struggled with,
 module Hw02 where
 
 import Hw02_Words
-import Data.List (elem, delete)
+import Data.List (delete)
 
 import qualified Test.HUnit      as T
 import qualified Test.HUnit.Util as U
@@ -84,9 +84,67 @@ ex2 = T.TestList
       ]
 
 
+--------------------------------------------------------------------------------
+--- Exercise 3.
+-- |
+-- Write a function wordFitsTemplate that checks to see if a given
+-- word matches a template, given a set of tiles available.
+-- >>> wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "care"
+-- True
+-- >>> wordFitsTemplate "??r?" ['c','x','e','w','b','c','l'] "care"
+-- False
+-- >>> wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "car"
+-- False
+-- >>> wordFitsTemplate "let" ['x','x'] "let"
+-- True
+
+wordFitsTemplate :: Template -> Hand -> String -> Bool
+wordFitsTemplate temp hs word
+  |temp == word = True
+  |length temp /= length word = False
+  |any (\(a,b) -> a /= b) cs = False
+  |formableBy tw hs = True
+  |otherwise = False
+   where
+     ps = zip temp word
+     cs = filter (\(a,_) -> a /= '?') ps
+     tw = map (\(_,b) -> b) $ filter (\(a,_) -> a == '?') ps
+
+ex3 :: T.Test
+ex3 = T.TestList
+      [
+        U.teq "ex30" (wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "care") True
+      , U.teq "ex31" (wordFitsTemplate "??r?" ['c','x','e','w','b','c','l'] "care") False
+      , U.teq "ex32" (wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "car") False
+      , U.teq "ex33" (wordFitsTemplate "let" ['x','x'] "let") True
+      ]
+--------------------------------------------------------------------------------
+--- Exercise 4.
+-- |
+-- produces all valid Scrabble words that match a given template using a
+-- hand of available tiles. 
+-- >>> wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l']
+-- ["acre","bare","carb","care","carl","earl"]
+
+wordsFittingTemplate :: Template -> Hand -> [String]
+wordsFittingTemplate temp hand = filter (wordFitsTemplate temp hand) allWords
+
+ex4 :: T.Test
+ex4 = T.TestList
+      [
+        U.teq "ex40" (wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l']) ["acre","bare","carb","care","carl","earl"]
+        
+      ]
+
+--------------------------------------------------------------------------------
+--- Exercise 5.
+
+
 hw2 :: IO T.Counts
 hw2 = do
   T.runTestTT ex1
   T.runTestTT ex2
+  T.runTestTT ex3
+  T.runTestTT ex4  
   
   

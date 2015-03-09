@@ -18,6 +18,7 @@ cabal-version:       >=1.10
 library
   exposed-modules:     Main
                      , Hw01
+                     , Hw02
                      
   -- other-modules:       
   -- other-extensions:    
