@@ -9,7 +9,7 @@ Notes: <any particular notes about your work -- what you struggled with,
 module Hw02 where
 
 import Hw02_Words
-import Data.List (delete)
+import Data.List (delete, sortBy, groupBy)
 
 import qualified Test.HUnit      as T
 import qualified Test.HUnit.Util as U
@@ -133,18 +133,98 @@ ex4 :: T.Test
 ex4 = T.TestList
       [
         U.teq "ex40" (wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l']) ["acre","bare","carb","care","carl","earl"]
-        
       ]
 
 --------------------------------------------------------------------------------
 --- Exercise 5.
+-- |
+-- nction that gives the point value of any word.
+-- >>> scrabbleValueWord "care"
+-- 6
+-- >>> scrabbleValueWord "quiz"
+-- 22
+scrabbleValueWord :: String -> Int
+scrabbleValueWord = sum . map scrabbleValue
 
+ex5 :: T.Test
+ex5 = T.TestList
+      [
+        U.teq "ex50" (scrabbleValueWord "care") 6
+      , U.teq "ex51" (scrabbleValueWord "quiz") 22
+      ]
 
+--------------------------------------------------------------------------------
+--- Exercise 6.
+-- |
+-- >>> bestWords (wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l'])
+-- ["carb"]
+-- >>> bestWords ["cat", "rat", "bat"]
+-- ["bat","cat"]
+-- >>> bestWords []
+-- []
+bestWords :: [String] -> [String]
+bestWords [] = []
+bestWords ws = reverse
+               $ map (\(a, _) ->a)
+               $ head
+               $ groupBy (\(_, a) (_, b) -> a == b)
+               $ sortBy (\(_, x) (_, y) -> (flip compare) x y)
+               $ zip ws (map scrabbleValueWord ws)
+
+ex6 :: T.Test
+ex6 = T.TestList
+      [
+        U.teq "ex60" (bestWords (wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l'])) ["carb"]
+      , U.teq "ex61" (bestWords ["cat", "rat", "bat"]) ["bat","cat"]
+      , U.teq "ex62" (bestWords []) []
+        
+      ]
+
+--------------------------------------------------------------------------------
+--- Exercise 7.
+-- |
+--
+--
+-- >>> scrabbleValueTemplate "?e??3" "peace"
+-- 27
+-- >>> scrabbleValueTemplate "De?2?" "peace"
+-- 24
+-- >>> scrabbleValueTemplate "??Tce" "peace"
+-- 11
+
+--scrabbleValueTemplate :: STemplate -> String -> Int
+scrabbleValueTemplate ts ws = sum $ map score $  zip ts ws 
+  where
+    score :: (Char, Char) -> Int
+    score (t,c) = letterCoeff t * scrabbleValue c
+    wordCoeff :: Int
+    wordCoeff |elem '2' ts = 2
+              |elem '3' ts = 3
+              |otherwise = 1
+    letterCoeff :: Char -> Int
+    letterCoeff t |t == '?' = wordCoeff 
+                  |t == 'D' = 2 * wordCoeff 
+                  |t == 'T' = 3 * wordCoeff
+                  |otherwise = wordCoeff
+
+ex7 :: T.Test
+ex7 = T.TestList
+      [
+        U.teq "ex70" (scrabbleValueTemplate "?e??3" "peace") 27
+      , U.teq "ex71" (scrabbleValueTemplate "De?2?" "peace") 24
+      , U.teq "ex72" (scrabbleValueTemplate "??Tce" "peace") 11
+      ]
+
+--------------------------------------------------------------------------------
+--- run all unit tests
 hw2 :: IO T.Counts
 hw2 = do
   T.runTestTT ex1
   T.runTestTT ex2
   T.runTestTT ex3
-  T.runTestTT ex4  
+  T.runTestTT ex4
+  T.runTestTT ex5
+  T.runTestTT ex6
+  T.runTestTT ex7  
   
   
