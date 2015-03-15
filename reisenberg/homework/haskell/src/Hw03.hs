@@ -128,6 +128,8 @@ ex5 = T.TestList
       [
         U.teq "ex50" (sortMessages [LogMessage (Error 2) 562 "help help",LogMessage Info 29 "la la la"]) [LogMessage Info 29 "la la la",LogMessage (Error 2) 562 "help help"] 
       ]
+
+      
 --------------------------------------------------------------------------------
 --- Test List
         
