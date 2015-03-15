@@ -19,6 +19,7 @@ library
   exposed-modules:     Main
                      , Hw01
                      , Hw02
+                     , Hw03
                      
   -- other-modules:       
   -- other-extensions:    
