@@ -6,7 +6,8 @@ module Hw03 where
 import Hw03Log
 import qualified Test.HUnit      as T
 import qualified Test.HUnit.Util as U
-import Data.List (sortBy)
+import Data.List (sortBy, isInfixOf)
+import Data.Char (toLower)
 -- import System.IO (readFile)
 -- import Control.Monad ((=<<))
 
@@ -129,7 +130,79 @@ ex5 = T.TestList
         U.teq "ex50" (sortMessages [LogMessage (Error 2) 562 "help help",LogMessage Info 29 "la la la"]) [LogMessage Info 29 "la la la",LogMessage (Error 2) 562 "help help"] 
       ]
 
-      
+
+--------------------------------------------------------------------------------
+--- Exercise 6.
+-- |
+-- eturns a list of the messages corresponding to any errors with a severity of
+-- 50 or greater, sorted by timestamp
+-- >>>take 3 testWhatWentWrong parse whatWentWrong "error.log"
+-- Mustardwatch opened, please close for proper functioning!
+-- All backup mustardwatches are busy
+-- Depletion of mustard stores detected!
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong =  map getMsg .  sortBy compareMsgs . filter isError
+  where
+    getMsg (LogMessage _ s msg) = msg -- ++ " " ++  (show s)
+    isError (LogMessage (Error s) _ msg) |s >= 50 = True
+                                         |otherwise = False
+    isError _ = False
+
+
+
+ex6 :: T.Test
+ex6 = T.TestList
+      [
+        -- U.teq "ex60" (take 1 $ testWhatWentWrong parse whatWentWrong "error.log") "Mustardwatch opened, please close for proper functioning!"
+      ]
+
+
+--------------------------------------------------------------------------------
+--- Exercise 7.
+-- |
+-- that filters a list of LogMessages to include only those messages that
+-- contain the string provided., match case-insensitive
+
+messagesAbout :: String -> [String] -> [String]
+messagesAbout pattern  = filter p
+  where
+    p str = isInfixOf (stringToLower pattern) (stringToLower str)
+    p _
+      = False
+
+    stringToLower = map toLower
+
+--------------------------------------------------------------------------------
+--- Exercise 8.
+-- |
+--
+stringToLower :: String -> String
+stringToLower = map toLower
+
+isContains :: String -> LogMessage -> Bool
+isContains pattern (LogMessage _ _ str) = isInfixOf (stringToLower pattern) (stringToLower str)
+
+isError :: LogMessage -> Bool
+isError (LogMessage (Error s) _ msg) |s >= 50 = True
+                                     |otherwise = False
+isError _ = False
+
+getMsg :: LogMessage -> String
+getMsg (LogMessage _ s msg) = msg
+
+
+(|||) :: (LogMessage -> Bool) -> (LogMessage -> Bool) -> LogMessage -> Bool
+(|||) f g x = f x || g x -- (||) is Haskell’s ordinary "or" opera
+
+
+whatWentWrongEnhanced :: String -> [LogMessage] -> [String]
+whatWentWrongEnhanced pattern =  map getMsg . sortBy compareMsgs . filter (isError ||| (isContains pattern))
+
+
+-- for test run
+-- testWhatWentWrong parse (whatWentWrongEnhanced "fail") "src/error.log")
+
 --------------------------------------------------------------------------------
 --- Test List
         
@@ -138,4 +211,6 @@ hw3 = do
   T.runTestTT ex1
   T.runTestTT ex2
   T.runTestTT ex4
-  T.runTestTT ex5  
+  T.runTestTT ex5
+  T.runTestTT ex6
+
