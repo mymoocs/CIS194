@@ -2,7 +2,7 @@
    Part of an implementation of a binary search tree.
 -}
 
-module BST where
+module Hw04_BST where
 
 import Test.QuickCheck
 import Control.Applicative
