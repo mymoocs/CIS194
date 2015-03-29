@@ -8,7 +8,7 @@ import           Data.Char
 import           Data.List           (foldl')
 import           Data.Maybe
 import           Data.Monoid
-import           Ring
+import           Hw05_Ring
 
 -- Building block of a computation with some state of type @s@
 -- threaded through it, possibly resulting in a value of type @r@
