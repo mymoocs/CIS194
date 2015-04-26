@@ -116,6 +116,17 @@ ex3 = T.TestList
       ]
                        
 
+instance Ring Bool where
+  mulId = True
+  mul = (&&)
+  addId = False
+  add a b = a1 || b1 -- (a || b) && (not (a && b)) called Symmetric difference
+    where
+      a1 = a && (not b)
+      b1 = b && (not a)
+          
+          
+  
 
 --------------------------------------------------------------------------------
 --- Parser
