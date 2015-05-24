@@ -11,5 +11,13 @@ import qualified Data.Text as Text
 import qualified Data.Text.IO as Text
 
 
+-------------------------------------------------------------------------------
+--- Exercise 1.
 
+-- | a function that changes all occurence of
+-- | "Y" to True nad all occurence of "N" to False
+-- | no other part of the imput Value should change.
+-- >>> ynToBool 
+
+ynToBool :: Value -> Value
 
