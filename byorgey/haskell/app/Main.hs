@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Hw01
 
 main :: IO ()
-main = someFunc
+main = undefinedb
