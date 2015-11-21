@@ -1,26 +1,25 @@
 import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
-
+import Hw01 
 
 main :: IO ()
 main = hspec $ do
     describe "Hw01" $ do
-      it "returns the first element of a list" $ do
-        head [23 ..] `shouldBe` (23 :: Int)
-    
-      it "returns the first element of an *arbitrary* list" $
-        property $ \x xs -> head (x:xs) == (x :: Int)
-    
-      it "throws an exception if used with an empty list" $ do
-        evaluate (head []) `shouldThrow` anyException
+      it "convert positive Integer to a list of digits" $ do
+        toDigits 123 `shouldBe` [1,2,3]
+      it "returns the [] input 0" $
+        toDigits 0     `shouldBe` []
+      it "returns the [] if not positive input" $
+        toDigits (-14) `shouldBe` []
+      it "convert positive Integer to a reversed list of digits" $ do
+        toDigitsRev 123 `shouldBe` [3,2,1]
+      it "should double every other number beginning from the right" $ do
+        doubleEveryOther [8,7,6,5] `shouldBe` [16,7,12,5]
+      it "should double every other number beginning from the right" $ do
+        doubleEveryOther [1,2,3] `shouldBe` [1,4,3]
+        
     describe "Hw02" $ do
-      it "returns the first element of a list" $ do
-        head [23 ..] `shouldBe` (23 :: Int)
-    
-      it "returns the first element of an *arbitrary* list" $
-        property $ \x xs -> head (x:xs) == (x :: Int)
-    
-      it "throws an exception if used with an empty list" $ do
-        evaluate (head []) `shouldThrow` anyException
+      it "convert positive Integer to a reversed list of digits" $ do
+        toDigitsRev 123 `shouldBe` [3,2,1]
     

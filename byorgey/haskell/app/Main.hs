@@ -2,5 +2,5 @@ module Main where
 
 import Hw01
 
-main :: IO ()
-main = undefined
+main :: IO () 
+main = do putStrLn "Hello, word" 
