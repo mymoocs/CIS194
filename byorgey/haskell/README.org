@@ -14,6 +14,14 @@
  5) cabal install --only-dependencies
  6) cabal repl  #to start ghci which loads sandbox packages as well
 
+** haddock 
+   - cabal haddock --hyperlink-source
+     create an HTML manual under the "dist" directory
+   - 
+
+** doctest
+
+
 ** Resource about sandbox:
   * [[https://www.fpcomplete.com/school/to-infinity-and-beyond/older-but-still-interesting/an-introduction-to-cabal-sandboxes-copy][An Introduction to Cabal sandboxes]] 
   * [[http://chromaticleaves.com/posts/cabal-sandbox-workflow.html][Haskell Development with Cabal Sandboxes]] 

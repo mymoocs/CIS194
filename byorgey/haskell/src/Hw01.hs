@@ -26,9 +26,28 @@ e1 = T.TestList
 ------------------------------------------------------------------------------
 -- Exercise 1
 
+{-| toDigits should convert positive Integers to a list of digits. (For 0 or
+  | negative inputs, toDigits should return the empty list.)
+
+>>> toDigits 1234
+[1,2,3,4]
+
+>>> toDigits 0
+[]
+
+>>> toDigits (-17)
+[]
+-}
+
 toDigits :: Integer -> [Integer]
 toDigits = undefined
 
+{-|should do the same as toDigits, but with the digits reversed
+
+>>> toDigitsRev 1234
+[4,3,2,1]
+
+-}
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = undefined
 
