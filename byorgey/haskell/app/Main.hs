@@ -1,6 +1,6 @@
 module Main where
 
-import Hw01
+import Cis194
 
 main :: IO () 
 main = do putStrLn "Hello, word" 

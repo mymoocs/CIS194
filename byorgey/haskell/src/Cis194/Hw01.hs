@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wall #-}
-module Hw01
+module Cis194.Hw01
     (
       toDigits
     , toDigitsRev

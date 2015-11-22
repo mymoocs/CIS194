@@ -1,7 +1,7 @@
 import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
-import Hw01 
+import Cis194
 
 main :: IO ()
 main = hspec $ do
