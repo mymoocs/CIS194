@@ -5,7 +5,8 @@ module Hw01
     , toDigitsRev
     , doubleEveryOther
     , sumDigits
-    , validate  
+    , validate
+    , hanoi  
     ) where
 
 import Data.Char (digitToInt)
@@ -67,6 +68,8 @@ toDigitsRev = reverse . toDigits
 --
 -- >>> doubleEveryOther [1,2,3]
 -- [1,4,3]
+
+-- https://stackoverflow.com/questions/23842473/what-to-use-instead-of-explicit-recursion-in-haskell
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther ys
   | n `mod` 2 == 0 = doubleFst ys
@@ -102,3 +105,44 @@ sumDigits = sum . concatMap toDigits
 -- False
 validate :: Integer -> Bool
 validate = (== 0) . (`mod` 10) . sumDigits . doubleEveryOther . toDigits
+
+
+
+------------------------------------------------------------------------------
+-- Exercise 5
+
+-- | Towers of Hanoi 
+-- >>> hanoi 2 "a" "b" "c"
+-- [("a","b"),("a","c"),("b","c")]
+--
+-- >>> hanoi 3 "a" "b" "c"
+-- [("a","c"),("a","b"),("c","b"),("a","c"),("b","a"),("b","c"),("a","c")]
+--
+-- >>> hanoi 4 "a" "b" "c"
+-- [("a","b"),("a","c"),("b","c"),("a","b"),("c","a"),("c","b"),("a","b"),("a","c"),("b","c"),("b","a"),("c","a"),("b","c"),("a","b"),("a","c"),("b","c")]
+
+type Peg = String
+type Move = (Peg, Peg)
+
+--                  src    tmp    dst
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi = move
+  where
+    move 0 _ _ _ = []
+    move n a b c = move (n-1) a c b ++ [(a,c)] ++ move (n-1) b a c
+
+-- | calcuate steps of moves for haoi with n disks 3 pegs
+--
+-- >>> length $ hanoi 2 "a" "b" "c"
+-- >>> stepCount 2
+
+stepCount :: Int -> Int
+stepCount n = 2^n-1
+
+------------------------------------------------------------------------------
+-- Exercise 6
+
+-- | Towers of Hanoi for 4 pegs
+
+hanoi4p :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
+hanoi4p = undefined
