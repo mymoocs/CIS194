@@ -36,7 +36,7 @@ test-suite cis194-hspec
                      , hspec      >=2.0
                      , QuickCheck >=2.8
                      , cis194
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -fhpc -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite cis194-doctest
@@ -57,6 +57,16 @@ benchmark benchmark
                      , cis194
                      , criterion >= 1.1.0.0
   default-language:    Haskell2010
+
+benchmark hpc
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             hpc.hs
+  build-depends:       base
+                     , process      >= 1.4.0.0
+                     , regex-compat >= 0.95.1
+  default-language:    Haskell2010
+
 
 source-repository head
   type:     git

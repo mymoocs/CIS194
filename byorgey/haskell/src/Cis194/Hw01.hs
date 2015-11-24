@@ -74,11 +74,11 @@ doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther ys
   | n `mod` 2 == 0 = doubleFst ys
   | otherwise  = doubleSnd ys
-    where n = length ys
-          doubleFst [] = []
-          doubleFst (x:xs) = 2*x : doubleSnd xs
-          doubleSnd [] = []
-          doubleSnd (x:xs) = x:doubleFst xs
+  where n = length ys
+        doubleFst [] = []
+        doubleFst (x:xs) = 2*x : doubleSnd xs
+        doubleSnd [] = []
+        doubleSnd (x:xs) = x:doubleFst xs
           
 
 
@@ -134,7 +134,7 @@ hanoi = move
 -- | calcuate steps of moves for haoi with n disks 3 pegs
 --
 -- >>> length $ hanoi 2 "a" "b" "c"
--- >>> stepCount 2
+-- 3
 
 stepCount :: Int -> Int
 stepCount n = 2^n-1
