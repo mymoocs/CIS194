@@ -14,7 +14,8 @@ import Cis194.Log
     , MessageType(..)
     , MessageTree(..)  
     )
-    
+
+import Data.List (sortBy)    
 ------------------------------------------------------------------------------
 -- Exercise 1
 
@@ -61,9 +62,6 @@ insert m@(LogMessage _ t _) (Node l m1@(LogMessage _ t1 _)  r)
     | t > t1    = Node l m1 (insert m r)
     | otherwise = Node (insert m l) m1 r
 
-
-
-
 ------------------------------------------------------------------------------
 -- Exercise 3
 
@@ -71,7 +69,7 @@ insert m@(LogMessage _ t _) (Node l m1@(LogMessage _ t1 _)  r)
 --   by successively inserting the messages into a MessageTree (beginning with a Leaf).
 
 build :: [LogMessage] -> MessageTree
-build  = undefined
+build  = foldr insert Leaf
 
 ------------------------------------------------------------------------------
 -- Exercise 4
@@ -82,7 +80,10 @@ build  = undefined
 --   e.g. inOrder (build tree)
 
 inOrder :: MessageTree -> [LogMessage]
-inOrder = undefined
+inOrder Leaf = []
+inOrder (Node Leaf m Leaf) = [m]
+inOrder (Node l m r) = inOrder l ++ [m] ++ inOrder r
+
 ------------------------------------------------------------------------------
 -- Exercise 5
 
@@ -91,5 +92,16 @@ inOrder = undefined
 --   sorted by timestamp.
 
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong = undefined
+whatWentWrong = map msg . sortBy sortMsg . getErrors
+    where
+      msg (LogMessage _ _ s) = s
+      msg _ = ""
+      getErrors [] = []                 
+      getErrors (m@(LogMessage (Error n) _ _):ls)
+          | n > 50 =  m:getErrors ls
+          | otherwise = getErrors ls
+      getErrors (_:ls) = getErrors ls
 
+sortMsg :: LogMessage -> LogMessage -> Ordering
+sortMsg (LogMessage _ t1 _) (LogMessage _ t2 _) = compare t1 t2
+sortMsg _ _ = EQ

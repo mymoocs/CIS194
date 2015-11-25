@@ -9,7 +9,9 @@ import           System.IO.Unsafe (unsafePerformIO)
 exitProperly :: IO Counts -> IO ()
 exitProperly m = do
   counts <- m
-  exitWith $ if failures counts /= 0 || errors counts /= 0 then ExitFailure 1 else ExitSuccess
+  exitWith $ if failures counts /= 0 || errors counts /= 0
+             then ExitFailure 1
+             else ExitSuccess
 
 testCase :: String -> Assertion -> Test
 testCase label assertion = TestLabel label (TestCase assertion)
@@ -18,9 +20,33 @@ hw02Tests :: IO Counts
 hw02Tests =  runTestTT $ TestList
              [ TestList insertTests
              , TestList parseTests
+            -- , TestList buildTests            
+             , TestList inOrderTests
+             , TestList whatWentWrongTests
              ]
 
- 
+whatWentWrongTests :: [Test]
+whatWentWrongTests =
+    [ testCase "errors > 50" $
+      (unsafePerformIO (testWhatWentWrong parse whatWentWrong "src/Cis194/sample.log"))
+      @=?
+      [ "Way too many pickles"
+      , "Bad pickle-flange interaction detected"
+      , "Flange failed!"
+      ]
+    ]
+                      
+inOrderTests :: [Test]
+inOrderTests =
+    [ testCase "" $
+      inOrder i9 @=? sortedLogs         
+    ]
+
+buildTests :: [Test]
+buildTests =
+    [ testCase "build test" $
+      build logs @=? i9
+    ]             
 parseTests :: [Test]
 parseTests =
     [ testCase "E" $
@@ -39,9 +65,8 @@ parseTests =
       , Unknown "This is not in the right format"
       ]
     , testCase "u" $
-      unsafePerformIO (testParse parse 10 "src/Cis194/error.log")
-      @=?
-      [m0,m1,m2,m3,m4,m5,m6,m7,m8,m9]
+      unsafePerformIO (testParse parse 10 "src/Cis194/error.log") @=? logs
+      
     ]
 
 
@@ -80,7 +105,12 @@ insertTests =
           m0 Leaf
   ]
 
+logs :: [LogMessage]
+logs = [m0,m1,m2,m3,m4,m5,m6,m7,m8,m9]
 
+sortedLogs :: [LogMessage]       
+sortedLogs = [m8,m5,m6,m2,m7,m9,m3,m1,m4,m0]       
+       
 m0,m1,m2,m3,m4,m5,m6,m7,m8,m9 :: LogMessage
 m0 = LogMessage Info 5053 "pci_id: con ing!"
 m1 = LogMessage Info 4681 "ehci 0xf43d000:15: regista14: [0xbffff 0xfed nosabled 00-02] Zonseres: brips byted nored)"
