@@ -1,8 +1,11 @@
 import Cis194.Hw02UnitTest
+import Cis194.Hw03UnitTest    
 
 main = do
-  -- _ <- hw02Tests
-    hw02Tests
+  putStrLn "Cis194.Hw02UnitTest"
+  _ <- hw02Tests
+  putStrLn "Cis194.Hw03UnitTest"
+  hw03Tests
  
 
 

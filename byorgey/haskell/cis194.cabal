@@ -19,6 +19,7 @@ library
                        Cis194.Log  		       
                        Cis194.Hw01
                        Cis194.Hw02_LogAnalysis
+                       Cis194.Hw03_Golf		       
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
 
