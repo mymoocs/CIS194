@@ -6,6 +6,7 @@ module Cis194.Hw03_Golf
     where
 
 import Data.List       (sort, group)
+
 ------------------------------------------------------------------------------
 -- Exercise 1
       
@@ -113,4 +114,4 @@ ratio xss = concatMap pickFirst xss : ratio (filter notnull (map dropFirst xss))
       pickFirst []     = []
       pickFirst (x:xs) = [x]
       notnull :: [a] -> Bool                   
-      notnull = (not . null)
+      notnull = not . null
