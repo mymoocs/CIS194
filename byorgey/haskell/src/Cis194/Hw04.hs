@@ -3,7 +3,9 @@ module Cis194.Hw04
     , isBalanced
     , isTreeBalanced
     , Tree(..)
-    , xor)
+    , xor
+    , map'
+    , myFoldl)
     where
 
 
@@ -88,13 +90,32 @@ checkBalanced (Node _ l _ r)
   return r
 -}
 
+-- 3.1
 xor :: [Bool] -> Bool
 xor = foldl xor' False
 
 xor' a b
      | b          = not a
      | otherwise  = a
-                    
+
+-- 3.2
+
+-- | in such a way that map’ behaves identically to the standard map function.
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr ((:) . f) []
+
+-- 3.3
+
+-- | Implement foldl using foldr. That is, complete the definition
+--
+-- >>> myFoldl (\x y -> concat ["(", x, "+",y,")"]) "0" $ map' show [1..10]
+-- "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+-- >>> foldl (\x y -> concat ["(", x, "+",y,")"]) "0" $ map' show [1..10]
+-- "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+
+myFoldl :: (a -> b -> a) -> a -> [b] -> a
+myFoldl f base xs = foldr (flip f) base (reverse xs) 
 ------------------------------------------------------------------------------
 -- Exercise 4: Finding primes
       

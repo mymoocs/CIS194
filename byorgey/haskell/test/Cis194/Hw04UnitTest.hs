@@ -12,6 +12,7 @@ hw04Tests :: IO Counts
 hw04Tests =  runTestTT $ TestList
              [ TestList foldTreeTests
              , TestList xorTests
+             , TestList myFoldlTests
              ]
 
 
@@ -32,5 +33,17 @@ xorTests =
       xor [False, True, False] @=? True
     , testCase "xor even True" $
       xor [False, True, False, False, True] @=?  False
+    ]
+
+ls = map' show [1..10]
+myFoldlTests :: [Test]
+myFoldlTests =
+    [
+     testCase "" $
+     myFoldl (\x y -> concat ["(", x, "+",y,")"]) "0" ls @=?
+                 "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+    , testCase "" $
+     foldl (\x y -> concat ["(", x, "+",y,")"]) "0" ls  @=?
+               "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
     ]
     
