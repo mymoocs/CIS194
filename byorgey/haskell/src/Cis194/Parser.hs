@@ -50,6 +50,11 @@ num :: Parser Integer
 num = maybe id (const negate) <$> optional (char '-') <*> (toInteger <$> some digit)
     where toInteger = foldl' ((+) . (* 10)) 0
 
+num1 :: Parser [Integer]
+num1 = maybe id (const id) <$> optional (char '-') <*> ( some digit)
+--    where toInteger = foldl' ((+) . (* 10)) 0
+
+                      
 -- Parse a single white space character.
 space :: Parser ()
 space = State $ parseSpace

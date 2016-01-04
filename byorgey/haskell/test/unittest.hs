@@ -12,7 +12,9 @@ main = do
   putStrLn "Cis194.Hw04UnitTest"
   _ <- hw04Tests
   putStrLn "Cis194.Hw05UnitTest"
-  hw05Tests
+  _ <- hw05Tests
+  putStrLn "Cis194.Hw06UnitTest"
+  hw06Tests
  
 
 
