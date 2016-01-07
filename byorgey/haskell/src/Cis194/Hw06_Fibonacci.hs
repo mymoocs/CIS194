@@ -1,3 +1,7 @@
+{-# LANGUAGE FlexibleInstances #-} -- for ex 6.
+-- | ghc will complain that you haven’t defined them
+{-# OPTIONS_GHC -fno-warn-missing-methods #-} 
+
 module Hw06_Fibonacci
       (fib
       , fibs1
@@ -5,7 +9,8 @@ module Hw06_Fibonacci
       where
 
 -- 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, . . .
-        
+
+
 ------------------------------------------------------------------------------
 -- Exercise 1:
 fib :: Integer -> Integer
@@ -96,6 +101,49 @@ maxDivisor = maxDivisor' 0
 ------------------------------------------------------------------------------
 -- Exercise 6:
 
+x :: Stream Integer
+x = 0:.1:.zeros
+
+instance Num (Stream Integer) where
+    fromInteger = (:.zeros)
+    negate = streamMap negate
+    (+) (a:.as) (b:.bs)       = a+b :. as + bs
+    (*) (a:.as) b'@(b:.bs)    = a*b :. (streamMap (* a) bs) + as * b'
+
+instance Fractional (Stream Integer) where                                
+    (/) a'@(a:.as) b'@(b:.bs) = a `div` b :. streamMap (`div` b) (as - (a' / b') * bs)
+
+
+fibs3 :: Stream Integer
+fibs3 = x / (1 - x - x^2)
 
 ------------------------------------------------------------------------------
 -- Exercise 7:
+data Matrix = Matrix Integer Integer Integer Integer
+
+instance Show Matrix where
+    show (Matrix a11 a12 a21 a22) = 
+                                  "|" ++ show a11 ++ " " ++ show a12 ++ "|\n" ++
+                                  "|" ++ show a21 ++" " ++ show a22 ++ "|"    
+
+instance Num Matrix where
+    (*) (Matrix  a11 a12 a21 a22) (Matrix b11 b12 b21 b22) = Matrix c11 c12 c21 c22
+                    where
+                      c11 = a11 * b11 + a12 * b21
+                      c12 = a11 * b21 + a12 * b22
+                      c21 = a21 * b11 + a22 * b21
+                      c22 = a21 * b21 + a22 * b22
+                            
+mF :: Matrix
+mF = Matrix 1 1 1 0
+     
+fib4 :: Integer -> Integer     
+fib4 n = let (Matrix _ m _ _) =  mF ^ n
+         in m
+     
+fib4' :: Integer -> Integer
+fib4' = fib' mF
+    where
+      fib' (Matrix _ m _ _) 1 = m
+      fib' m k = fib' (m*mF) (k-1)
+
