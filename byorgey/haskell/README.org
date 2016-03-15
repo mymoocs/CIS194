@@ -1,5 +1,6 @@
 * [[http://www.seas.upenn.edu/~cis194/fall14/spring13/][CIS 194: Introduction to Haskell (Spring 2013)]]
   Instructor: [[http://www.cis.upenn.edu/~byorgey/][Brent Yorgey]]
+  Attmpt: 3(2016)
 
 ** Test Flow practice
    SOURCE: https://stackoverflow.com/questions/3120796/haskell-testing-workflow
