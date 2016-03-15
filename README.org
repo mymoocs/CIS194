@@ -12,3 +12,7 @@ Instructor: [[http://www.cis.upenn.edu/~eir][Richard Eisenberg]]
 [[http://www.seas.upenn.edu/~cis194]] 
 
 Instructor: [[http://www.cis.upenn.edu/~noamz][Noam Zilberstein]]
+
+
+
+Add gh-pages [[https://srackham.wordpress.com/2014/12/14/publishing-a-project-website-to-github-pages/][Publishing a project website to Github Pages]]
