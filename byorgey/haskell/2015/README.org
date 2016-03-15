@@ -1,0 +1,70 @@
+* [[http://www.seas.upenn.edu/~cis194/fall14/spring13/][CIS 194: Introduction to Haskell (Spring 2013)]]
+  Instructor: [[http://www.cis.upenn.edu/~byorgey/][Brent Yorgey]]
+
+** Test Flow practice
+   SOURCE: https://stackoverflow.com/questions/3120796/haskell-testing-workflow
+
+
+   The approach is advocate in [[http://book.realworldhaskell.org/read/testing-and-quality-assurance.html][RWH ch 11]] and in [[http://xmonad.wordpress.com/2009/09/09/the-design-and-implementation-of-xmonad/][XMonad]]([[https://www.youtube.com/watch?v=EP0UgtZ9EDQ][video]]) is approximately:
+   
+   State all properties of the system in QuickCheck
+   Show [[http://code.haskell.org/~dons/tests/bytestring/hpc_index.html][test coverage]] with HPC.
+   Confirm space behavior with [[http://book.realworldhaskell.org/read/profiling-and-optimization.html#id678078][heap profiling.]]
+   Confirm thread/parallel behavior with [[https://wiki.haskell.org/ThreadScope][ThreadScope.]]
+   Confirm microbenchmark behavior with Criterion.
+   Once your major invariants are established via QuickCheck, you can start refactoring, moving those tests into type invariants.
+   
+   Practices to support your efforts:
+
+   Run a simplified QuickCheck regression on every commit.
+   Publish HPC coverage details.
+
+
+**  how to install [[https://github.com/haroldcarr/test-hunit-util][test-hunit-util]]
+    small wrapper of Test.HUnit to make 
+  nicer and shorter unit test usage.
+
+  assume you use cabal sandboxing.
+ 1) git clone https://github.com/haroldcarr/test-hunit-util
+ 2) cd <projectpath>
+ 3) cabal sandbox add-source ../test-hunit-util
+ 4) Add dependency to cabal config file 
+                      , HUnit           >=1.2 && <1.3
+                      , test-hunit-util >=0.1 && <0.2
+ 5) cabal install --only-dependencies
+ 6) cabal repl  #to start ghci which loads sandbox packages as well
+
+** haddock 
+   - cabal haddock --hyperlink-source
+     create an HTML manual under the "dist" directory
+   - 
+
+** stack commands
+  - stack clean
+  - stack build
+  - stack install
+  - stack test
+  - stack bench
+    ./Bench -g -u Bench.csv -o Bench.html -s $(SAMPLES)
+    Breaking that down, it says:
+    -g    run GC between each sample
+    -u    output CSV data to the given file
+    -o    output HTML data to the given file
+    -s    collect this many samples
+    -t for template see distr example
+
+    [[https://chplib.wordpress.com/2010/02/04/progression-supporting-optimisation-in-haskell/][Progrssion:]] compare different criterion graphs
+    [[http://unlines.wordpress.com/2009/11/27/noslow/][NoSlow:]] a new array benchmark suite based on Criterion 
+  - stack haddock
+  - stack test --coverage
+    export HPCTIXDIR=${PWD}/hpctixdir
+    https://wiki.haskell.org/Haskell_program_coverage
+    
+     
+
+** Resource about sandbox:
+  * [[https://www.fpcomplete.com/school/to-infinity-and-beyond/older-but-still-interesting/an-introduction-to-cabal-sandboxes-copy][An Introduction to Cabal sandboxes]] 
+  * [[http://chromaticleaves.com/posts/cabal-sandbox-workflow.html][Haskell Development with Cabal Sandboxes]]
+  * 
+
+# End of file.
