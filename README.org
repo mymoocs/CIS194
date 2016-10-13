@@ -2,12 +2,16 @@
 
 
 
-* Homework solutions for UPenn's "CIS 194: Introduction to Haskell"
+** Homework solutions
 
-** [[http://www.seas.upenn.edu/~cis194/spring13/][(Spring 2013)]]  Instructor: [[http://www.cis.upenn.edu/~byorgey/][Brent Yorgey]]
-*** [[https://github.com/mymoocs/CIS194/tree/master/byorgey/haskell][Homerwork in Haskell]]
-** [[http://www.seas.upenn.edu/~cis194/fall14/][(Fall 2014)]]    Instructor: [[http://www.cis.upenn.edu/~eir][Richard Eisenberg]] 
-** [[http://www.seas.upenn.edu/~cis194/spring15/][(Spring 2015)]]  Instructor: [[http://www.cis.upenn.edu/~noamz][Noam Zilberstein]]
-** [[http://www.seas.upenn.edu/~cis194/fall16/][(Fall 2016)]]    Instructor: [[http://www.cis.upenn.edu/~joachim/][Joachim Breitner]]
+*** [[http://www.seas.upenn.edu/~cis194/spring13/][(Spring 2013)]]  Instructor: [[http://www.cis.upenn.edu/~byorgey/][Brent Yorgey]]
+*** [[https://github.com/mymoocs/CIS194/tree/master/byorgey/haskell][in Haskell]]
+*** in Scala
+*** in Racket
+*** in Ruby
+***    
+*** [[http://www.seas.upenn.edu/~cis194/fall14/][(Fall 2014)]]    Instructor: [[http://www.cis.upenn.edu/~eir][Richard Eisenberg]] 
+*** [[http://www.seas.upenn.edu/~cis194/spring15/][(Spring 2015)]]  Instructor: [[http://www.cis.upenn.edu/~noamz][Noam Zilberstein]]
+*** [[http://www.seas.upenn.edu/~cis194/fall16/][(Fall 2016)]]    Instructor: [[http://www.cis.upenn.edu/~joachim/][Joachim Breitner]]
 
-* Add gh-pages [[https://srackham.wordpress.com/2014/12/14/publishing-a-project-website-to-github-pages/][Publishing a project website to Github Pages]]
+** Add gh-pages [[https://srackham.wordpress.com/2014/12/14/publishing-a-project-website-to-github-pages/][Publishing a project website to Github Pages]]
