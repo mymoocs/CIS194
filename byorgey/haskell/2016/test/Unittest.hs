@@ -1,4 +1,4 @@
-import Cis194.Hw01.UTest
+import Cis194.Hw01.Unittest
 
 
 main = do
