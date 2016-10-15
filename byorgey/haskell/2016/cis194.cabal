@@ -19,14 +19,14 @@ library
   exposed-modules:   Cis194
   other-modules:     Cis194.Hw01
   build-depends:     base >= 4.7 && < 5
-
+  default-language:  Haskell2010
 
 executable cis194
   hs-source-dirs:      src
   main-is:             Main.hs
-  default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , cis194
+  default-language:    Haskell2010
 
 test-suite cis194-doctest
   type:                exitcode-stdio-1.0
@@ -34,6 +34,7 @@ test-suite cis194-doctest
   main-is:             Doctest.hs
   build-depends:       base >= 4.7 && < 5
                      , doctest
+                     , filepath
                      , cis194
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
@@ -53,7 +54,7 @@ test-suite cis194-hspec
 test-suite cis194-unittest
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
-  main-is:             utest.hs
+  main-is:             Unittest.hs
   build-depends:       base
                      , cis194
                      , HUnit >= 1.2.5.2
