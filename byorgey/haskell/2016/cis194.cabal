@@ -14,10 +14,13 @@ cabal-version:       >=1.10
 
 
 library
-  hs-source-dirs:    src/
+  hs-source-dirs:    src
   ghc-options:       -Wall -O2
   exposed-modules:   Cis194
   other-modules:     Cis194.Hw01
+                   , Cis194.Hw02
+                   , Cis194.Hw02.Log
+                   , Cis194.Hw02.LogAnalysis
   build-depends:     base >= 4.7 && < 5
   default-language:  Haskell2010
 
@@ -30,8 +33,9 @@ executable cis194
 
 test-suite cis194-doctest
   type:                exitcode-stdio-1.0
-  hs-source-dirs:      test
+  hs-source-dirs:      test, src
   main-is:             Doctest.hs
+
   build-depends:       base >= 4.7 && < 5
                      , doctest
                      , filepath
@@ -43,9 +47,10 @@ test-suite cis194-hspec
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
+  other-modules:       Cis194.Hw01.HSpec
   build-depends:       base
-                     , hspec      >=2.0
-                     , QuickCheck >=2.8
+                     , hspec
+                     , QuickCheck
                      , cis194
   ghc-options:         -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
@@ -55,8 +60,11 @@ test-suite cis194-unittest
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Unittest.hs
+  other-modules:       Cis194.Test
+                     , Cis194.Hw01.UTest
+                     , Cis194.Hw02.UTest
   build-depends:       base
                      , cis194
-                     , HUnit >= 1.2.5.2
+                     , HUnit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010

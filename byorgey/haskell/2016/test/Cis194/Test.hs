@@ -3,3 +3,4 @@ module Cis194.Test
     where
 
 import Cis194.Hw01.UTest as T
+import Cis194.Hw02.UTest as T

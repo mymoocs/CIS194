@@ -1,3 +1,5 @@
+-- CIS 194 Homework 1
+
 module Cis194.Hw01 where
 
 import Data.Char (digitToInt)
@@ -5,7 +7,7 @@ import Data.List (mapAccumR, foldr)
 ------------------------------------------------------------------------------
 -- Exercise 1
 
--- | toDigits should convert positive Integers to a list of digits.
+-- | @toDigits n@ convert positive Integers to a list of digits.
 --
 -- >>> toDigits 1234
 -- [1,2,3,4]
@@ -20,7 +22,7 @@ toDigits n
          | otherwise = map (toInteger . digitToInt) $ show n
 
 
--- | should do the same as toDigits, but with the digits reversed
+-- | @toDigitsRev n@ do the same as @toDigits n@, but with the digits reversed.
 -- >>> toDigitsRev 1234
 -- [4,3,2,1]
 toDigitsRev :: Integer -> [Integer]
@@ -28,7 +30,7 @@ toDigitsRev  = reverse . toDigits
 
 
 
--- | toDigits should convert positive Integers to a list of digits.
+-- | toDigits' should convert positive Integers to a list of digits.
 --  using mutula recursion
 --
 -- >>> toDigits 1234
@@ -43,9 +45,11 @@ toDigitsRev  = reverse . toDigits
 toDigits' :: Integer -> [Integer]
 toDigits' n
     | n <= 0 = []
-    | otherwise = toDigitsExceptLast' n ++ [m]
-    where
-      m = mod n 10
+    | otherwise = toDigitsExceptLast' n ++ lastDigit n
+
+
+lastDigit :: Integer -> [Integer]
+lastDigit = (: []) . (`mod` 10)
 
 -- | point free syntax
 toDigitsExceptLast' :: Integer -> [Integer]
