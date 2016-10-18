@@ -1,5 +1,9 @@
 [[http://ozark.hendrix.edu/~yorgey/490/][take a look at CIS490 as well]]
 
+[[https://glow.williams.edu/courses/1324331/files/folder/problem%20sets][related to CIS490 course, ]]
+
+[[https://github.com/byorgey/haskell-course][CIS194 web site source]]
+
 [[https://github.com/bfpg/cis194-yorgey-lectures][Talk Series based on cis194 lectures.]]
 
 [[http://talks.bfpg.org/][BFPG talks site]]

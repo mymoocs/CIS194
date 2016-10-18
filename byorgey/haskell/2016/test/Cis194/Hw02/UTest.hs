@@ -20,8 +20,8 @@ hw02Tests =  runTestTT $ TestList
              [ TestList insertTests
              , TestList parseTests
              , TestList buildTests
-             -- , TestList inOrderTests
-             -- , TestList whatWentWrongTests
+             , TestList inOrderTests
+             , TestList whatWentWrongTests
              ]
 
 whatWentWrongTests :: [Test]
