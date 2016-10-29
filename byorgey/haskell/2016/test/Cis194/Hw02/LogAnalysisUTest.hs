@@ -1,4 +1,4 @@
-module Cis194.Hw02.UTest ( hw02Tests ) where
+module Cis194.Hw02.LogAnalysisUTest ( hw02Tests ) where
 
 import           Cis194
 import           Test.HUnit (Assertion, (@=?), runTestTT, Test(..), Counts(..))
@@ -15,11 +15,16 @@ exitProperly m = do
 testCase :: String -> Assertion -> Test
 testCase label assertion = TestLabel label (TestCase assertion)
 
+main :: IO Counts
+main = do
+  hw02Tests
+
+
 hw02Tests :: IO Counts
 hw02Tests =  runTestTT $ TestList
              [ TestList insertTests
              , TestList parseTests
-             , TestList buildTests
+            -- , TestList buildTests
              , TestList inOrderTests
              , TestList whatWentWrongTests
              ]

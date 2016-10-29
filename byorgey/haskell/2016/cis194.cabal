@@ -21,6 +21,7 @@ library
                    , Cis194.Hw02
                    , Cis194.Hw02.Log
                    , Cis194.Hw02.LogAnalysis
+                   , Cis194.Hw03.Golf
   build-depends:     base >= 4.7 && < 5
   default-language:  Haskell2010
 
@@ -47,7 +48,9 @@ test-suite cis194-hspec
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
-  other-modules:       Cis194.Hw01.HSpec
+  other-modules:       SpecHelper
+                     , Cis194.Hw01.HSpec
+                     , Cis194.Hw03.GolfSpec
   build-depends:       base
                      , hspec
                      , QuickCheck
@@ -62,7 +65,7 @@ test-suite cis194-unittest
   main-is:             Unittest.hs
   other-modules:       Cis194.Test
                      , Cis194.Hw01.UTest
-                     , Cis194.Hw02.UTest
+                     , Cis194.Hw02.LogAnalysisUTest
   build-depends:       base
                      , cis194
                      , HUnit

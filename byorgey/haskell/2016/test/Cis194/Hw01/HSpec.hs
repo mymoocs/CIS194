@@ -5,8 +5,7 @@
 
 module Cis194.Hw01.HSpec where
 
-import Cis194
-import Test.Hspec
+import SpecHelper
 
 -- | Test suite entry point, returns exit failure if any test fails.
 main :: IO ()
