@@ -26,7 +26,7 @@ fun2' = sum . filter even . takeWhile (>1) . iterate seed
 
 
 -------------------------------------------------------------------------------
--- Exercise 2
+-- Exercise 2: Folding with trees
 
 -- | generates a balanced binary tree from a list of values using foldr.
 --
