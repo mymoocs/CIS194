@@ -30,13 +30,13 @@ fun2' = sum . filter even . takeWhile (>1) . iterate seed
 
 -- | generates a balanced binary tree from a list of values using foldr.
 --
--- foldTree "ABCDEFGHIJ"
+-- >>> foldTree "ABCDEFGHIJ"
 -- Node 3 (Node 2 (Node 0 Leaf 'F' Leaf) 'I' (Node 1 (Node 0 Leaf 'B' Leaf) 'C' Leaf)) 'J' (Node 2 (Node 1 (Node 0 Leaf 'A' Leaf) 'G' Leaf) 'H' (Node 1 (Node 0 Leaf 'D' Leaf) 'E' Leaf))
 --
--- >>> isBalanced $ foldTree "ABCDEFGHIJ"
+-- isBalanced $ foldTree "ABCDEFGHIJ"
 -- True
 --
--- >>> isTreeBalanced $ foldTree "ABCDEFGHIJ"
+-- isTreeBalanced $ foldTree "ABCDEFGHIJ"
 -- True
 
 data Tree a = Leaf
@@ -49,12 +49,79 @@ foldTree = foldr insert Leaf
 
 insert :: Ord a => a -> Tree a -> Tree a
 insert x Leaf = Node 0 Leaf x Leaf
-insert x (Node n l y r)
-  | hL > hR = Node (hR + 1) l y (insert x r)
+insert x (Node _ l y r)
+  | tgt l r = Node (hR + 1) l y (insert x r)
   | otherwise = Node (hL + 1) (insert x l) y r
   where
-    hR = treeHeight r
-    hL = treeHeight l
+    hR = treeDeep r
+    hL = treeDeep l
 
+treeDeep :: (Ord t, Num t) => Tree t1 -> t
+treeDeep Leaf = 0
+treeDeep (Node _ l _ r) = 1 + min (treeDeep l) (treeDeep r)
+
+tgt :: Tree t -> Tree t1 -> Bool
+tgt Leaf Node {} = False
+tgt (Node _ _ _ _) Leaf = True
+tgt Leaf Leaf = False
+tgt (Node m _ _ _)  (Node k _ _ _) = m >= k
+
+treeHeight :: Tree t -> Integer
 treeHeight Leaf = 0
-treeHeight (Node _ l _ r) =   1 + min (treeHeight l) (treeHeight r)
+treeHeight (Node n _ _ _) = n
+
+
+-------------------------------------------------------------------------------
+-- Exercise 3
+
+-- 1)
+-- | returns True if and only if there are an odd number of True
+-- values contained in the input list.
+--
+-- >>> xor [False, True, False]
+-- True
+--
+-- >>> xor [False, True, False, False, True]
+-- False
+xor :: [Bool] -> Bool
+xor = xor' False
+    where
+      xor' z [] = z
+      xor' z (x:xs) = xor' (if x then not z else z ) xs
+
+
+-- >>> xor' [False, True, False]
+-- True
+--
+-- >>> xor' [False, True, False, False, True]
+-- False
+xor' :: [Bool] -> Bool
+xor' = foldr (\acc x -> (if x then not acc else acc )) False
+
+-- 2)
+-- | Implement map as a fold.
+--
+-- >>> map' (+2) [1..3]
+-- [3,4,5]
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x acc -> f x : acc) []
+
+-- 3)
+-- | Implement foldl using foldr.
+-- >>> let ps = "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+-- >>> myFoldl (\x y -> concat ["(", x,"+",y,")"]) "0" $ map show [1..10]
+-- "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+-- >>>  foldl (\x y -> concat ["(", x,"+",y,")"]) "0" $ map show [1..10]
+-- "((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)"
+myFoldl :: (b -> a -> b) -> b -> [a] -> b
+myFoldl f z xs = foldr (flip f) z (reverse xs)
+
+-------------------------------------------------------------------------------
+-- Exercise 4 Finding primes
+-- | Implement the algorithm us- http://en.wikipedia.org/wiki/Sieve_
+-- of_Sundaram ing function composition. Given an integer n, your function should
+-- generate all the odd prime numbers up to 2n + 2.
+
+
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram = ...
