@@ -118,10 +118,8 @@ myFoldl f z xs = foldr (flip f) z (reverse xs)
 
 -------------------------------------------------------------------------------
 -- Exercise 4 Finding primes
--- | Implement the algorithm us- http://en.wikipedia.org/wiki/Sieve_
--- of_Sundaram ing function composition. Given an integer n, your function should
--- generate all the odd prime numbers up to 2n + 2.
-
+-- | Implement the algorithm using function composition. Given an integer n,
+-- your function should generate all the odd prime numbers up to 2n + 2.
 
 sieveSundaram :: Integer -> [Integer]
-sieveSundaram = ...
+sieveSundaram = undefined
