@@ -8,6 +8,10 @@ echo "Week 03"
 doctest -isrc src/Cis194/Hw03/Golf.hs
 echo "Week 04"
 doctest -isrc src/Cis194/Hw04/HigherOrder.hs
+echo "Week 05"
+doctest -isrc src/Cis194/Hw05/Calc.hs
+echo "Week 06"
+doctest -isrc src/Cis194/Hw06/Fibonacci.hs
 
 
 echo "--- other tesrs ---"

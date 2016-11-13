@@ -1,0 +1,1 @@
+-fno-warn-name-shadowing
