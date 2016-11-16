@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleInstances #-} -- for ex 6
+{-# OPTIONS_GHC -fno-warn-missing-methods #-}
+
 module Fibonacci where
 
 -- http://www.cs.nott.ac.uk/~pszgmh/contractive.pdf
@@ -86,4 +89,72 @@ interleaveStreams :: Stream a -> Stream a -> Stream a
 -- interleaveStreams (x:.xs) (y:.ys) = x :. (y :. interleaveStreams xs ys)
 -- we can make the second argument be pattern-matched lazily with ~.
 -- interleaveStreams (x:.xs) ~(y:.ys) = x :. (y :. interleaveStreams xs ys)
-interleaveStreams (x:.xs) ys = x :. interleaveStreams ys xs
+interleaveStreams (a:.as) ys = a :. interleaveStreams ys as
+
+-- |
+-- Fibonacci numbers via generating functions
+
+-- | We will use streams of Integers to compute the Fibonacci numbers.
+-- a0 + a1x + a2x^2 + · · · + anx* n + . . .
+
+-------------------------------------------------------------------------------
+-- Exercise 6
+
+x :: Stream Integer
+x = 0 :. (1 :. streamRepeat 0)
+
+streamZipWith :: (a -> b -> c) -> Stream a -> Stream b -> Stream c
+streamZipWith f (a:.as) ~(b:.bs) = c :. streamZipWith f as bs
+    where
+      c = f a b
+
+instance Num (Stream Integer) where
+    fromInteger n = n :. streamRepeat 0
+    negate = streamMap (*(-1))
+    (+) = streamZipWith (+)
+    (*) (a:.as) allB@(b:.bs) = c0 :. (aB' + as * allB)
+                              where
+                                c0 = a * b
+                                aB' = streamMap (*a) bs
+instance Fractional (Stream Integer) where
+    (/) allA@(a:.as) allB@(b:.bs) = a `div` b :. streamMap ( `div` b) (as - q * bs )
+                                     where
+                                       q = allA / allB
+
+
+-- |
+-- Consider representing the Fibonacci numbers using a generating function.
+-- F(x) = F0 + F1x + F2x^2 + F3x^3 + . . .
+-- Notice that x + xF(x) + x^2F(x) = F(x):
+
+fibs3 :: Stream Integer
+fibs3  = x / (1 - x - (x*x))
+
+
+
+-- | Fibonacci numbers via matrices (extra credit)
+
+-------------------------------------------------------------------------------
+-- Exercise 7
+
+
+
+data Matrix = Matrix Integer Integer Integer Integer
+
+instance Show Matrix where
+    show (Matrix a11 a12 a21 a22) =
+        concat ["|", show a11, " ", show a12, "|"] ++ "\n"
+     ++ concat ["|", show a21, " ", show a22, "|"]
+
+
+instance Num Matrix where
+    (*) (Matrix a11 a12 a21 a22) (Matrix b11 b12 b21 b22)
+        =  Matrix (a11*b11 + a12*b12) (a11*b12 + a12*b22)
+                  (a21*b11 + a22*b21) (a21*b12 + a22*b22)
+
+f :: Matrix
+f = Matrix 1 1 1 0
+
+fib4 :: Integer -> Integer
+fib4 0 = 0
+fib4 n = let Matrix _ fib _ _ = f ^ n in fib
