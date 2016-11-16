@@ -22,8 +22,9 @@ library
                    , Cis194.Hw02.Log
                    , Cis194.Hw02.LogAnalysis
                    , Cis194.Hw03.Golf
-  build-depends:     base >= 4.7 && < 5
 
+  build-depends:     base >= 4.7 && < 5,
+                     mtl
   default-language:  Haskell2010
 
 executable cis194
@@ -31,6 +32,7 @@ executable cis194
   main-is:             Main.hs
   build-depends:       base >= 4.7 && < 5
                      , cis194
+                     , mtl
   default-language:    Haskell2010
 
 test-suite cis194-doctest
@@ -45,6 +47,20 @@ test-suite cis194-doctest
                      , filepath
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
+
+test-suite cis194-testy
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test.hs
+  other-modules:       SpecHelper
+                     , Cis194.Hw01.HSpec
+                     , Cis194.Hw03.GolfSpec
+  build-depends:       base
+                     , tasty >= 0.7
+                     , cis194
+  ghc-options:         -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
 
 test-suite cis194-hspec
   type:                exitcode-stdio-1.0
@@ -68,6 +84,7 @@ test-suite cis194-unittest
   other-modules:       Cis194.Test
                      , Cis194.Hw01.UTest
                      , Cis194.Hw02.LogAnalysisUTest
+                     , Cis194.Hw03.GolfSpec
   build-depends:       base
                      , cis194
                      , HUnit
