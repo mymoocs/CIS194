@@ -1,7 +1,17 @@
+{--
+  Created       : 2016 Nov 27 (Sun) 03:39:14 PM by Arthur Vardanyan.
+  Last Modified : 2016 Nov 27 (Sun) 03:39:41 PM by Arthur Vardanyan.
+--}
+
 import Test.Tasty
 
-main :: IO ()
-main = defaultMain tests
+import Cis194.Hw07.JoinListTest
+import Cis194.Hw08.PartyTest
+import Cis194.Hw10.AParserTest
 
-tests :: TestTree
-tests = testGroup "Tests" []
+
+main :: IO ()
+main = defaultMain $ testGroup "All Test" tests
+
+tests :: [TestTree]
+tests = [week7Tests,   week8Tests, week10Tests]
