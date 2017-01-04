@@ -1,8 +1,8 @@
 {- CIS 194 HW 10
    due Monday, 1 April
 
-Created       : 2016 Nov 26 (Sat) 05:57:45 PM by Arthur Vardanyan.
-Last Modified : 2016 Nov 27 (Sun) 03:27:48 PM by Arthur Vardanyan.
+ Created       : 2016 Nov 26 (Sat) 05:57:45 PM by Arthur Vardanyan.
+ Last Modified : 2017 Jan 04 (Wed) 07:05:41 PM by Arthur Vardanyan.
 --}
 
 module Cis194.Hw10.AParser where
@@ -36,16 +36,15 @@ satisfy p = Parser f
 char :: Char -> Parser Char
 char c = satisfy (== c)
 
-{- For example:
 
-*Parser> runParser (satisfy isUpper) "ABC"
-Just ('A',"BC")
-*Parser> runParser (satisfy isUpper) "abc"
-Nothing
-*Parser> runParser (char 'x') "xyz"
-Just ('x',"yz")
-
--}
+-- |
+--
+-- >>> runParser (satisfy isUpper) "ABC"
+-- Just ('A',"BC")
+-- >>> runParser (satisfy isUpper) "abc"
+-- Nothing
+-- >>> runParser (char 'x') "xyz"
+-- Just ('x',"yz")
 
 -- For convenience, we've also provided a parser for positive
 -- integers.
@@ -60,3 +59,95 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+-- Exercise 1.
+-- | implement a Functor instance for Parser.
+first :: (a -> b) -> (a, c) -> (b, c)
+first f (a, c) = (f a, c)
+
+instance Functor Parser where
+   -- fmap :: (a -> b) -> f a -> f b
+    fmap f p = Parser $ \s ->  runParser p s >>= \(rs, rest) -> return (f rs, rest)
+
+
+-------------------------------------------------------------------------------
+-- Exercise 2.
+
+instance Applicative Parser where
+    -- <*> :: f (a->b)->f a -> f b
+    pure a = Parser (\s -> return (a, s))
+    (Parser p1) <*>  (Parser p2) =
+        Parser $ \s -> p1 s >>=
+                       \(f, rest1) -> p2 rest1 >>=
+                                      \(rs, rest2) -> return (f rs, rest2)
+    -- Parser l <*> r = Parser (\s -> l s >>= \(a,rest) -> runParser (a <$> r) rest)
+
+-- type Name = String
+-- data Employee = Emp { name :: Name, phone :: String }
+
+
+-- | we could now use the Applicative instance for Parser to make an
+-- employee parser from name and phone parsers. That is, if
+-- parseName :: Parser Name
+-- parsePhone :: Parser String
+
+-- then
+-- Emp <$> parseName <*> parsePhone :: Parser Employee
+
+-------------------------------------------------------------------------------
+-- Exercise 3.
+
+-- |
+--
+-- >>> runParser abParser "abcdef"
+-- Just ((’a’,’b’),"cdef")
+-- >>> runParser abParser "aebcdf"
+-- Nothing
+
+abParser :: Parser (Char, Char)
+abParser = (,) <$> char 'a' <*> char 'b'
+
+-- |
+--
+-- >>> runParser abParser_ "abcdef"
+-- Just ((),"cdef")
+-- >>> runParser abParser_ "aebcdf"
+-- Nothing
+
+abParser_ :: Parser ()
+abParser_ = () <$ abParser
+    -- (\(_,_) -> ()) <$> abParser
+
+-- |
+--
+-- >>> runParser intPair "12 34"
+-- Just ([12,34],"")
+
+intPair :: Parser [Integer]
+intPair = (\x _ y -> [x,y]) <$> posInt <*> satisfy (' '==) <*> posInt
+
+
+-------------------------------------------------------------------------------
+-- Exercise 4.
+
+instance Alternative  Parser where
+    empty = Parser $ \_ -> Nothing
+    (Parser p1) <|> (Parser p2) =
+        Parser $ \s -> case p1 s of
+                         Nothing -> p2 s
+                         res     -> res
+
+-------------------------------------------------------------------------------
+-- Exercise 5.
+
+-- |
+--
+-- >>> runParser intOrUppercase "342abcd"
+-- Just ((), "abcd")
+-- >>> runParser intOrUppercase "XYZ"
+-- Just ((), "YZ")
+-- >>> runParser intOrUppercase "foo"
+-- Nothing
+intOrUppercase :: Parser ()
+intOrUppercase  = () <$ satisfy isUpper <|>  () <$ posInt
