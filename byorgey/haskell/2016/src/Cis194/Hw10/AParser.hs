@@ -2,14 +2,14 @@
    due Monday, 1 April
 
  Created       : 2016 Nov 26 (Sat) 05:57:45 PM by Arthur Vardanyan.
- Last Modified : 2017 Jan 04 (Wed) 07:05:41 PM by Arthur Vardanyan.
+ Last Modified : 2017 Jan 05 (Thu) 02:16:39 PM by Arthur Vardanyan.
 --}
 
 module Cis194.Hw10.AParser where
 
-import           Control.Applicative
+import Control.Applicative
 
-import           Data.Char
+import Data.Char
 
 -- A parser for a value of type a is a function which takes a String
 -- represnting the input to be parsed, and succeeds or fails; if it
@@ -128,6 +128,16 @@ intPair :: Parser [Integer]
 intPair = (\x _ y -> [x,y]) <$> posInt <*> satisfy (' '==) <*> posInt
 
 
+
+-- | A parser that parses the first two chars in the stream if they are upper case
+--
+-- >>> runParser parser1 "HEllo"
+-- Just ("HE","llo")
+-- >>>runParser parser1 "Hello"
+-- Nothing
+
+uParser = satisfy isUpper
+parser1 = ( (:) <$> uParser ) <*> ( (\x -> [x]) <$> uParser )
 -------------------------------------------------------------------------------
 -- Exercise 4.
 

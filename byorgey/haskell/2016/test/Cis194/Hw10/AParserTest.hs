@@ -1,13 +1,13 @@
 {--
   Created       : 2016 Nov 27 (Sun) 02:37:48 PM by Arthur Vardanyan.
-  Last Modified : 2017 Jan 04 (Wed) 07:00:27 PM by Arthur Vardanyan.
+  Last Modified : 2017 Jan 05 (Thu) 05:24:56 PM by Arthur Vardanyan.
 --}
 
 module Cis194.Hw10.AParserTest
            (week10Tests)
     where
 
-import Test.Tasty        (testGroup, TestTree)
+import Test.Tasty        (defaultMain, testGroup, TestTree)
 import Test.Tasty.SmallCheck as SC
 import Test.Tasty.QuickCheck as QC
 import Test.Tasty.HUnit
