@@ -1,7 +1,7 @@
 {- CIS 194 HW 11
 
   Created       : 2017 Jan 04 (Wed) 08:41:14 PM by Arthur Vardanyan.
-  Last Modified : 2017 Jan 07 (Sat) 07:10:49 PM by Arthur Vardanyan.
+  Last Modified : 2017 Jan 07 (Sat) 07:14:05 PM by Arthur Vardanyan.
 
 -}
 -- http://comonad.com/reader/2012/abstracting-with-applicatives/
@@ -145,10 +145,13 @@ atom = A <$> ((N <$> posInt) <|> (I  <$> ident))
 atom' :: Parser SExpr
 atom' = (\x -> A x)  <$> (((\n -> N n) <$> posInt) <|> ((\i -> I i) <$> ident))
 
--- S ::= atom | (S∗*)
+-- S ::= atom | (S**)
 parseSExpr :: Parser SExpr
-parseSExpr = spaces *>
-             (atom
-              <|>
-              (satisfy (== '(') *> (Comb <$> oneOrMore parseSExpr) <* satisfy (==')')))
-             <* spaces
+parseSExpr = s
+
+s :: Parser SExpr
+s = spaces *>
+    (atom
+     <|>
+     (satisfy (== '(') *> (Comb <$> oneOrMore parseSExpr) <* satisfy (==')')))
+    <* spaces
