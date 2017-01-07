@@ -1,6 +1,6 @@
 {--
   Created       : 2017 Jan 05 (Thu) 04:44:16 PM by Arthur Vardanyan.
-  Last Modified : 2017 Jan 05 (Thu) 05:54:13 PM by Arthur Vardanyan.
+  Last Modified : 2017 Jan 07 (Sat) 05:47:37 PM by Arthur Vardanyan.
 --}
 
 module Cis194.Hw11.SExprTest
@@ -57,13 +57,13 @@ unitTests = testGroup "Unit tests"
               , testCase "spaces"   testSpaces
               ]
             , testGroup "ex3/S-Expression"
-              [ testCase "S-Expr 01" testSexpr1
+              [ testCase "S-Expr 01"   testSexpr1
               , testCase "S-Expr 02"   testSexpr2
-              , testCase "S-Expr 03"   testSexpr2
-              , testCase "S-Expr 04"   testSexpr2
-              , testCase "S-Expr 05"   testSexpr2
-              , testCase "S-Expr 06"   testSexpr2
-              , testCase "S-Expr 07"   testSexpr2
+              , testCase "S-Expr 03"   testSexpr3
+              , testCase "S-Expr 04"   testSexpr4
+              , testCase "S-Expr 05"   testSexpr5
+              , testCase "S-Expr 06"   testSexpr6
+              , testCase "S-Expr 07"   testSexpr7
               ]
             ]
 
