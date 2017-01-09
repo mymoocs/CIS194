@@ -1,7 +1,7 @@
 {- CIS 194 HW 11
 
   Created       : 2017 Jan 04 (Wed) 08:41:14 PM by Arthur Vardanyan.
-  Last Modified : 2017 Jan 07 (Sat) 07:14:05 PM by Arthur Vardanyan.
+  Last Modified : 2017 Jan 09 (Mon) 02:13:06 PM by Arthur Vardanyan.
 
 -}
 -- http://comonad.com/reader/2012/abstracting-with-applicatives/
@@ -42,16 +42,6 @@ employees1 = Emp <$> names <*> phones
 (.+) = liftA2 (+)    -- addition lifted to some Applicative context
 (.*) = liftA2 (*)    -- same for multiplication
 
--- | To parse something but ignore its output,
---
--- >>> runParser (spaces *> posInt) " 345"
--- Just (345,"")
-
-(.<*) :: Applicative f => f a -> f b -> f a
-(.<*) fa _ = fa
-
-(.*>) :: Applicative f => f a -> f b -> f b
-(.*>) _ fb = fb
 
 
 ------------------------------------------------------------
@@ -150,8 +140,31 @@ parseSExpr :: Parser SExpr
 parseSExpr = s
 
 s :: Parser SExpr
-s = spaces *>
+s = spaces .*>
     (atom
      <|>
      (satisfy (== '(') *> (Comb <$> oneOrMore parseSExpr) <* satisfy (==')')))
-    <* spaces
+     .<* spaces
+
+
+-- Exercise from lecture
+-- | To parse something but ignore its output,
+--
+-- >>> runParser (spaces *> posInt) " 345"
+-- Just (345,"")
+(.*>) :: Applicative f => f a -> f b -> f b
+(.*>) = ((<*>) . fmap (const id))
+
+(.<*) :: Applicative f => f a -> f b -> f a
+(.<*) = ((<*>) . fmap const)
+
+-- foldr flow
+-- ((<*>) . fmap (:)) (Just 1) ( ((<*>) . fmap (:))(Just 2) (pure []))
+sequenceA' :: Applicative f => [f a] -> f [a]
+sequenceA' = foldr ((<*>) . fmap (:)) (pure [])
+
+mapA' :: Applicative f => (a -> f b) -> ([a] -> f [b])
+mapA' f = foldr ((<*>) . fmap (:) . f) (pure [])
+
+replicateA' :: Applicative f => Int -> f a -> f [a]
+replicateA' n = fmap (replicate n)

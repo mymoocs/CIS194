@@ -2,7 +2,7 @@
    due Monday, 1 April
 
  Created       : 2016 Nov 26 (Sat) 05:57:45 PM by Arthur Vardanyan.
- Last Modified : 2017 Jan 05 (Thu) 02:16:39 PM by Arthur Vardanyan.
+ Last Modified : 2017 Jan 09 (Mon) 02:14:28 PM by Arthur Vardanyan.
 --}
 
 module Cis194.Hw10.AParser where
@@ -135,8 +135,9 @@ intPair = (\x _ y -> [x,y]) <$> posInt <*> satisfy (' '==) <*> posInt
 -- Just ("HE","llo")
 -- >>>runParser parser1 "Hello"
 -- Nothing
-
+uParser :: Parser Char
 uParser = satisfy isUpper
+parser1 :: Parser [Char]
 parser1 = ( (:) <$> uParser ) <*> ( (\x -> [x]) <$> uParser )
 -------------------------------------------------------------------------------
 -- Exercise 4.
