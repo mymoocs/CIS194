@@ -28,8 +28,9 @@ library
                    , Cis194.Hw08.Party
                    , Cis194.Hw10.AParser
                    , Cis194.Hw11.SExpr
-  build-depends:     base >= 4.7 && < 5,
-                     mtl
+  build-depends:     base >= 4.7 && < 5
+                   , mtl
+                   , MonadRandom
                    , containers
   default-language:  Haskell2010
 
